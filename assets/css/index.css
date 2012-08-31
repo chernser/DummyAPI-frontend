@@ -1,6 +1,10 @@
 /* @import "h5bp.css"; */
 
 
+body {
+    padding-bottom: 40px;
+}
+
 /* Application selection screen */
 
 #applications_list {
@@ -11,4 +15,8 @@
 #applications_list li {
     font-size: 18pt;
     padding: 5px;
+}
+
+#object_tabs .nav-tabs a {
+    cursor: pointer;
 }
