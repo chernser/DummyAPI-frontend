@@ -1,83 +1,40 @@
 define([
-  // Libraries.
-  "jquery",
-  "lodash",
-  "backbone",
+    // Libraries.
+    "jquery",
+    "underscore",
+    "backbone",
 
-  // Plugins.
-  "plugins/backbone.layoutmanager"
+    // Plugins.
+    "plugins/backbone.marionette"
 ],
 
-function($, _, Backbone) {
+    function ($, _, Backbone, Marionette) {
 
-  // Provide a global location to place configuration settings and module
-  // creation.
-  var app = {
-    // The root path to run the application.
-    root: "/"
-  };
+        var TEMPLATE_PREFIX = 'app/templates/';
+        var TEMPLATE_EXT = '.hbs';
 
-  // Localize or create a new JavaScript Template object.
-  var JST = window.JST = window.JST || {};
+        var app  = new Marionette.Application( {
+            // The root path to run the application.
+            root:"/",
 
-  // Configure LayoutManager with Backbone Boilerplate defaults.
-  Backbone.LayoutManager.configure({
-    paths: {
-      layout: "app/templates/layouts/",
-      template: "app/templates/"
-    },
-
-    fetch: function(path) {
-      path = path + ".html";
-
-      if (!JST[path]) {
-        $.ajax({ url: app.root + path, async: false }).then(function(contents) {
-          JST[path] = _.template(contents);
+            getJSTTemplate:function(template, data) {
+                // Small optimization ??
+                //var templateKey = [TEMPLATE_PREFIX, template, TEMPLATE_EXT].join('');
+                return Handlebars.templates[template](data);
+                //return JST[templateKey](data);
+            }
         });
-      } 
-      
-      return JST[path];
-    }
-  });
 
-  // Mix Backbone.Events, modules, and layout management into the app object.
-  return _.extend(app, {
-    // Create a custom object with a nested Views object.
-    module: function(additionalProps) {
-      return _.extend({ Views: {} }, additionalProps);
-    },
+        app.addRegions({
+            main: "#main"
+        });
 
-    // Helper for using layouts.
-    useLayout: function(name) {
-      // If already using this Layout, then don't re-inject into the DOM.
-      if (this.layout && this.layout.options.template === name) {
-        return this.layout;
-      }
+        // Tunes
+        Marionette.Renderer.render = function(template, data) {
+            return app.getJSTTemplate(template, data);
+        };
 
-      // If a layout already exists, remove it from the DOM.
-      if (this.layout) {
-        this.layout.remove();
-      }
 
-      // Create a new Layout.
-      var layout = new Backbone.Layout({
-        template: name,
-        className: "layout " + name,
-        id: "layout"
-      });
+        return app;
 
-      // Insert into the DOM.
-      $("#main").empty().append(layout.el);
-
-      // Render the layout.
-      layout.render();
-
-      // Cache the refererence.
-      this.layout = layout;
-
-      // Return the reference, for chainability.
-      return layout;
-    }
-  }, Backbone.Events);
-
-});
+    });

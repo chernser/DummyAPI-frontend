@@ -1,1 +1,14 @@
-@import "h5bp.css";
+/* @import "h5bp.css"; */
+
+
+/* Application selection screen */
+
+#applications_list {
+    list-style: none;
+
+}
+
+#applications_list li {
+    font-size: 18pt;
+    padding: 5px;
+}
