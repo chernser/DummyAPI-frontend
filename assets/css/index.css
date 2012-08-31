@@ -17,6 +17,6 @@ body {
     padding: 5px;
 }
 
-#object_tabs .nav-tabs a {
+.nav-tabs a {
     cursor: pointer;
 }

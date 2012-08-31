@@ -3,5 +3,64 @@
         <h3>Application Authentication</h3>
     </div>
 
+    <div class="row-fluid">
+        <div id="auth_tabs" class="span10 tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-target="#users_tab" data-toggle="tab">Users</a></li>
+                <li><a data-target="#groups_tab" data-toggle="tab">Groups</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="users_tab">
+
+                    <div id="users" style="height: 200px;border: solid 1px #d3d3d3;"></div>
+                    <div class="btn-group">
+                        <button class="btn btn-small"><i class="icon icon-edit"></i></button>
+                        <button class="btn btn-small"><i class="icon icon-plus"></i></button>
+                        <button class="btn btn-small"><i class="icon icon-minus"></i></button>
+                    </div>
+                    <br/>
+
+                    <div class="form-horizontal">
+
+                        <div class="control-group">
+                            <label class="control-label">Name</label>
+
+                            <div class="controls">
+                                <input type="text"/>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Password</label>
+
+                            <div class="controls">
+                                <input type="text"/>
+                                <button class="btn">generate</button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Access Token</label>
+
+                            <div class="controls">
+                                <input type="text"/>
+                                <button class="btn">renew</button>
+                            </div>
+                        </div>
+
+                        <div class="btn-group">
+                            <button class="btn">Create</button>
+                            <button class="btn">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="groups_tab">
+                          <h2>User groups</h2>
+                    </div>
+            </div>
+        </div>
+
+    </div>
 
 </div>
