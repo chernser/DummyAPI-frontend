@@ -1,12 +1,13 @@
 define([
 
-    "views/general",
+    "app",
 
+    "views/general",
+    "views/application_upper_context",
     "backbone",
     "plugins/backbone.marionette"
 
-], function(DefaultView, Backbone, Marionette) {
-
+], function(app, DefaultView, AppUpperContext, Backbone, Marionette) {
 
     var layout = Marionette.Layout.extend({
         template: "application",
@@ -28,9 +29,11 @@ define([
         },
 
         onShow: function() {
-            debug("On Show view: ", this.viewClass);
-            var view =  new this.viewClass({});
+            var view =  new this.viewClass({model: this.model});
             this.view.show(view);
+
+            var upper_context = new AppUpperContext({model: this.model});
+            app.upper_context.show(upper_context);
         }
 
     });

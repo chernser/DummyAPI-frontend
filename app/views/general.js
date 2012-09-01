@@ -10,6 +10,10 @@ define([
 
         initialize:function(attributes) {
             debug("Initialize view general");
+            this.model = attributes.model;
+
+            var view = this;
+            this.model.on('change', function() { view.render(); });
         },
 
         events: {
@@ -19,7 +23,8 @@ define([
 
         renewAccessToken: function() {
             debug("Renewing access token");
-
+            var that = this;
+            this.model.renewAccessToken();
         }
     });
 

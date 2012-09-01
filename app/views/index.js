@@ -7,15 +7,17 @@ define([
     "views/general",
     "views/objects",
     "views/notifications",
-    "views/auth"
-], function (Application, Applications, General, Objects, Notifications, Auth) {
+    "views/auth",
+    "views/application_upper_context"
+], function (Application, Applications, General, Objects, Notifications, Auth, ApplicationUpperContext) {
 
     var ViewClasses = {
         'applications': Applications,
         'general':General,
         'objects':Objects,
         'notifications':Notifications,
-        'auth' : Auth
+        'auth' : Auth,
+        'app_upper_context' : ApplicationUpperContext
 
     };
 
@@ -23,8 +25,12 @@ define([
         'application':Application
     };
 
-    return {
+    var Views = {
         viewClasses: ViewClasses,
         layoutClasses: LayoutClasses
     };
+
+    debug(">>>>> ", Views);
+
+    return Views;
 });

@@ -1,21 +1,21 @@
 <div class="span12">
     <div class="span5">
-        <h2>Create new application</h2>
+        <h2>New Application</h2>
         <div class="form">
             <fieldset>
                 <div class="controls">
-                    <input type="text" placeholder="Application Name"/>
+                    <input id="application_name" type="text" placeholder="Application Name"/>
                 </div>
             </fieldset>
-            <button class="btn btn-large" > and create</button>
+            <button id="create_application_btn" class="btn btn-large" >create</button>
         </div>
     </div>
     <div class="span5">
-        <h2>Select from existing</h2>
+        <h2>Existing Applications</h2>
         <ul id="applications_list">
-            <li><a href="#app/12/general">Application #1</a> </li>
-            <li><a href="#app/12/general">Application #1</a> </li>
-            <li><a href="#app/12/general">Application #1</a> </li>
+            {{#each items}}
+                <li><a href="#app/{{id}}/general">{{name}}</a> </li>
+            {{/each}}
         </ul>
 
     </div>

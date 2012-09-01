@@ -26,7 +26,8 @@ define([
         });
 
         app.addRegions({
-            main: "#main"
+            main: "#main",
+            upper_context: "#upper_context"
         });
 
         // Tunes

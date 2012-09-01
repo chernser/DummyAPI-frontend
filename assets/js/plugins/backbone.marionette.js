@@ -118,7 +118,7 @@
     serializeData: function(){
       var data;
   
-      if (this.model) { 
+      if (this.model) {
         data = this.model.toJSON(); 
       }
       else if (this.collection) {
