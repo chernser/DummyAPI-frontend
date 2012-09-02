@@ -24,7 +24,11 @@ define([
         },
 
         isNew:function () {
-            return this.attributes.id === null || this.attributes.id === 0;
+            return this.attributes.id === null || this.attributes.id === 0 || _.isUndefined(this.get("id"));
+        },
+
+        getId:function () {
+            return this.isNew() ? '' : this.get("id");
         },
 
         load:function (callback) {
@@ -60,7 +64,26 @@ define([
                     if (_.isFunction(callback)) {
                         callback(err, null);
                     }
+
                 }
+            });
+
+        },
+
+        remove: function(callback) {
+            this.destroy(null, {
+                success: function(model) {
+                    if (_.isFunction(callback)) {
+                        callback(null, true);
+                    }
+
+                },
+
+                error: function(model, err) {
+                    debug("Failed to delete model: ", model, err);
+
+                }
+
             });
         },
 
@@ -69,21 +92,20 @@ define([
          */
         doAction:function (action, args, callback) {
 
-
             $.ajax({
-                type: 'POST',
-                dataType: 'json',
-                contentType: 'application/json',
-                data: JSON.stringify(args),
-                url: this.url()  + action,
+                type:'POST',
+                dataType:'json',
+                contentType:'application/json',
+                data:JSON.stringify(args),
+                url:this.url() + action,
 
-                success: function(result) {
+                success:function (result) {
                     if (_.isFunction(callback)) {
                         callback(null, result);
                     }
                 },
 
-                error: function(xhr) {
+                error:function (xhr) {
                     if (_.isFunction(callback)) {
                         callback('invalid', null);
                     }

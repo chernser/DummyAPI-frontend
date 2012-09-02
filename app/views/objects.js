@@ -3,9 +3,9 @@ define([
     "backbone",
     "plugins/backbone.marionette",
 
-    "slickgrid"
+    "jqgrid"
 
-], function (Backbone, Marionette, SlickGrid) {
+], function (Backbone, Marionette, Grid) {
 
 
     var view = Marionette.ItemView.extend({
@@ -20,31 +20,6 @@ define([
                 e.preventDefault();
                 $(this).tab('show');
             });
-
-
-            var rows = [
-                {
-                    field_1:"value1",
-                    field_2:"value2"
-                },
-                {
-                    field_1:"value3",
-                    field_2:"value4"
-                }
-            ];
-
-            var columns = [
-                {id:"field_1", name:"Title", field:"field_1"},
-                {id:"field_2", name:"Duration", field:"field_2"}
-            ];
-
-            var options = {
-                enableCellNavigation:true,
-                enableColumnReorder:false
-            };
-
-            var slickgrid = new Slick.Grid("#object_instances", rows, columns, options);
-
 
         },
 

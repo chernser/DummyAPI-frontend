@@ -22,7 +22,6 @@ define([
         },
 
         renewAccessToken: function() {
-            debug("Renewing access token");
             var that = this;
             this.model.renewAccessToken();
         }

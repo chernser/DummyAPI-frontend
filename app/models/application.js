@@ -9,20 +9,18 @@ define([
     var model =  Backend.Model.extend({
 
         defaults: {
-            id: 0,
             name: "My Sample "
         },
 
 
         resourceUrl: function() {
-            return 'app/' + ( this.isNew() ? '' : this.get("id") + '/');
+            return 'app/' + this.getId();
         },
 
 
         renewAccessToken: function(callback) {
             var that = this;
             this.doAction('new_access_token', {}, function(err, result) {
-                debug("Result", result);
                 if (result !== null) {
                     that.set('access_token', result.access_token);
                 }

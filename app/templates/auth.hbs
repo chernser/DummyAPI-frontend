@@ -12,14 +12,65 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="users_tab">
 
-                    <div id="users" style="height: 200px;border: solid 1px #d3d3d3;"></div>
+                    <table id="users"></table>
+                    <div class="btn-group">
+                        <button id="edit_selected_user_btn" class="btn btn-small"><i class="icon icon-edit"></i></button>
+                        <button id="remove_selected_user_btn" class="btn btn-small"><i class="icon icon-minus"></i></button>
+                    </div>
+                    <br/>
+
+                    <div id="user_edit_form" class="form-horizontal">
+                        <h5>Id: <i id="user_id"></i></h5>
+                        <div class="control-group">
+                            <label class="control-label">Name</label>
+
+                            <div class="controls">
+                                <input field="user_name" type="text"/>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Password</label>
+
+                            <div class="controls">
+                                <input field="password" type="text"/>
+                                <!--<button class="btn">generate</button>-->
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Access Token</label>
+
+                            <div class="controls">
+                                <input field="access_token" type="text"/>
+                                <!--<button class="btn">renew</button>-->
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Groups</label>
+
+                            <div class="controls">
+                                <input field="groups" type="text"/>
+                            </div>
+                        </div>
+
+
+                        <div class="btn-group">
+                            <button id="create_user_btn" class="btn">Create</button>
+                            <button id="save_user_btn" class="btn">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="groups_tab">
+                    <table id="groups"></table>
                     <div class="btn-group">
                         <button class="btn btn-small"><i class="icon icon-edit"></i></button>
                         <button class="btn btn-small"><i class="icon icon-plus"></i></button>
                         <button class="btn btn-small"><i class="icon icon-minus"></i></button>
                     </div>
                     <br/>
-
                     <div class="form-horizontal">
 
                         <div class="control-group">
@@ -30,34 +81,12 @@
                             </div>
                         </div>
 
-                        <div class="control-group">
-                            <label class="control-label">Password</label>
-
-                            <div class="controls">
-                                <input type="text"/>
-                                <button class="btn">generate</button>
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label">Access Token</label>
-
-                            <div class="controls">
-                                <input type="text"/>
-                                <button class="btn">renew</button>
-                            </div>
-                        </div>
-
                         <div class="btn-group">
                             <button class="btn">Create</button>
                             <button class="btn">Save</button>
                         </div>
                     </div>
                 </div>
-
-                <div class="tab-pane" id="groups_tab">
-                          <h2>User groups</h2>
-                    </div>
             </div>
         </div>
 

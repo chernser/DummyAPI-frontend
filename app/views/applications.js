@@ -27,7 +27,8 @@ define([
 
             var application = new ApplicationModel({name: application_name});
             application.put(function(err, model) {
-                Backbone.history.navigate('app/' + model.attributes.id +'/general', {trigger: true});
+                debug("Application creation result: ", err, model);
+                Backbone.history.navigate('app/' + model.get("id") +'/general', {trigger: true});
             });
         }
 
