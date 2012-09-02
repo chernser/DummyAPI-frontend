@@ -44,7 +44,8 @@ define([
                 id:{name:"id"},
                 user_name:{name:"Name"},
                 password:{name:"Password"},
-                access_token:{name:"Access Token"}
+                access_token:{name:"Access Token"},
+                groups: {name: "Groups"}
             };
 
             Helpers.showGrid("#users", "", fields, {datatype:"local"});
@@ -95,7 +96,10 @@ define([
         },
 
         saveUserBtn:function () {
-
+            var view = this;
+            this.current_user.put(function (err, model) {
+                view.reloadUsers();
+            });
         },
 
         onEditSelectedUserBtn:function () {
@@ -104,14 +108,16 @@ define([
                 this.current_user.set(user_to_edit);
                 this.renderCurrentUser();
             }
-
         },
 
         onRemoveSelectedUserBtn:function () {
-            var user_to_edit = Helpers.getSelectedRowData('#users');
-            if (user_to_edit !== null) {
+            var view = this;
+            var user_to_delete = Helpers.getSelectedRowData('#users');
+            if (user_to_delete !== null) {
                 this.current_user.set(user_to_delete);
-                this.current_user.remove();
+                this.current_user.remove(function (err, result) {
+                    view.reloadUsers();
+                });
             }
         }
 

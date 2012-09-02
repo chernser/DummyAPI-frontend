@@ -67,6 +67,7 @@ define([
     };
 
     Helpers.setGridData = function(grid_container_id, data) {
+        $(grid_container_id).jqGrid('clearGridData', {});
         $(grid_container_id).jqGrid('setGridParam', {data: data}).trigger('reloadGrid');
     };
 

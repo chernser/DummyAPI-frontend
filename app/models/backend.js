@@ -71,17 +71,19 @@ define([
         },
 
         remove: function(callback) {
-            this.destroy(null, {
+            this.destroy({
                 success: function(model) {
+                    debug("model removed");
                     if (_.isFunction(callback)) {
                         callback(null, true);
                     }
-
                 },
 
                 error: function(model, err) {
                     debug("Failed to delete model: ", model, err);
-
+                    if (_.isFunction(callback)) {
+                        callback(null, false);
+                    }
                 }
 
             });
