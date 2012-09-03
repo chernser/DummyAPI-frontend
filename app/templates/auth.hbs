@@ -42,7 +42,7 @@
                             <label class="control-label">Access Token</label>
 
                             <div class="controls">
-                                <input field="access_token" type="text"/>
+                                <input field="access_token" readonly="true" type="text"/>
                                 <!--<button class="btn">renew</button>-->
                             </div>
                         </div>
@@ -66,24 +66,23 @@
                 <div class="tab-pane" id="groups_tab">
                     <table id="groups"></table>
                     <div class="btn-group">
-                        <button class="btn btn-small"><i class="icon icon-edit"></i></button>
-                        <button class="btn btn-small"><i class="icon icon-plus"></i></button>
-                        <button class="btn btn-small"><i class="icon icon-minus"></i></button>
+                        <button id="edit_selected_user_group_btn" class="btn btn-small"><i class="icon icon-edit"></i></button>
+                        <button id="remove_selected_user_group_btn" class="btn btn-small"><i class="icon icon-minus"></i></button>
                     </div>
                     <br/>
-                    <div class="form-horizontal">
-
+                    <div id="user_group_edit_form" class="form-horizontal">
+                        <h5>Id: <i id="user_group_id"></i></h5>
                         <div class="control-group">
                             <label class="control-label">Name</label>
 
                             <div class="controls">
-                                <input type="text"/>
+                                <input field="name" type="text"/>
                             </div>
                         </div>
 
                         <div class="btn-group">
-                            <button class="btn">Create</button>
-                            <button class="btn">Save</button>
+                            <button id="create_user_group_btn" class="btn">Create</button>
+                            <button id="save_user_group_btn" class="btn">Save</button>
                         </div>
                     </div>
                 </div>
