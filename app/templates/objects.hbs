@@ -6,11 +6,15 @@
 
         <!-- Objects list -->
         <div class="span2">
-            <ul class="nav nav-list"
+            <ul id="object_types_nav_list" class="nav nav-list"
                 style="min-height: 300px; max-height: 300px; overflow: auto; border: dashed 1px #d3d3d3;">
-                <li><a href="#">Resource_01</a></li>
-                <li><a href="#">Resource_02</a></li>
-                <li><a href="#">Resource_03</a></li>
+                <li>
+                    <div id="new_object_type_name_form" class="hidden">
+                        <input id="new_object_type_name" value="Test resource"/>
+                        <i id="confirm_new_object_type_name" class="fake-btn icon icon-ok"></i>
+                        <i id="cancel_new_object_type" class="fake-btn icon icon-remove"></i>
+                    </div>
+                </li>
             </ul>
             <div class="btn-group">
                 <button id="remove_object_type_btn" class="btn"><i class="icon icon-minus"></i></button>
@@ -28,17 +32,20 @@
                 <li><a data-target="#permissions" data-toggle="tab">Permissions</a></li>
             </ul>
             <div class="tab-content">
+                <h5>"{{name}}" Instances</h5>
                 <div class="tab-pane active" id="instances">
-                    <div id="object_instances" style="height: 200px;border: solid 1px #d3d3d3;"></div>
+                    <table id="object_instances_tbl" ></table>
                     <div class="btn-group">
                         <button class="btn btn-small"><i class="icon icon-edit"></i></button>
                         <button class="btn btn-small"><i class="icon icon-plus"></i></button>
                         <button class="btn btn-small"><i class="icon icon-minus"></i></button>
                     </div>
                     <br/>
+
                     <div class="form">
                         <div class="controls-group">
                             <label class="control-label">Object data</label>
+
                             <div class="controls">
                                 <textarea rows="6" style="width:350px;"/>
                             </div>
@@ -50,6 +57,7 @@
                     <div class="form">
                         <div class="control-group">
                             <label class="control-label">Proxy function</label>
+
                             <div class="controls">
                                 <textarea rows="10" style="width:400px"></textarea>
                             </div>
@@ -71,7 +79,7 @@
                     </div>
                 </div>
 
-                <div class="tab-pane" id = "permissions">
+                <div class="tab-pane" id="permissions">
                     <h3>Permissions</h3>
                 </div>
 

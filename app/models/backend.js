@@ -28,7 +28,7 @@ define([
         },
 
         getId:function () {
-            return this.isNew() ? '' : this.get("id");
+            return this.isNew() ? '' : this.id;
         },
 
         load:function (callback) {

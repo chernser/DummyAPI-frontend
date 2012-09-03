@@ -8,6 +8,8 @@ define([
 
     var model =  Backend.Model.extend({
 
+        idAttribute: 'id',
+
         defaults: {
             name: "My Sample "
         },

@@ -4,6 +4,7 @@ define([
 ], function(Backend) {
 
     var model = Backend.Model.extend({
+        idAttribute: 'id',
 
         defaults: {
             name: "none_name"

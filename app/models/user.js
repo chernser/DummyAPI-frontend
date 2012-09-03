@@ -3,6 +3,7 @@ define([
 ], function (Backend) {
 
     var User = Backend.Model.extend({
+        idAttribute: 'id',
 
         defaults: {
             user_name: "user_0x",
