@@ -99,7 +99,7 @@ define([
                 dataType:'json',
                 contentType:'application/json',
                 data:JSON.stringify(args),
-                url:this.url() + action,
+                url:this.url() + '/' + action,
 
                 success:function (result) {
                     if (_.isFunction(callback)) {
