@@ -94,6 +94,25 @@ define([
         }
     };
 
+    Helpers.preventTabChangeFocus = function(textarea_id) {
+        $(textarea_id).keydown(function(objEvent) {
+            if (objEvent.keyCode == 9) {  //tab pressed
+                var identHolder = "    ";
+                var startPos = this.selectionStart;
+                var endPos = this.selectionEnd;
+                var scrollTop = this.scrollTop;
+                this.value = this.value.substring(0, startPos) + identHolder + this.value.substring(endPos,this.value.length);
+                this.focus();
+                this.selectionStart = startPos + identHolder.length;
+                this.selectionEnd = startPos + identHolder.length;
+                this.scrollTop = scrollTop;
+
+                objEvent.preventDefault(); // stops its action
+            }
+        });
+
+    };
+
 
     return Helpers;
 });

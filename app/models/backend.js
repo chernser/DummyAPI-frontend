@@ -23,9 +23,11 @@ define([
             return '';
         },
 
+/*
         isNew:function () {
-            return this.attributes.id === null || this.attributes.id === 0 || _.isUndefined(this.get("id"));
+            return this.id === null || this.id === 0 || _.isUndefined(this.get("id"));
         },
+*/
 
         getId:function () {
             return this.isNew() ? '' : this.id;

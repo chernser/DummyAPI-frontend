@@ -28,17 +28,16 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a data-target="#instances" data-toggle="tab">Instances</a></li>
                 <li><a data-target="#logic" data-toggle="tab">Logic</a></li>
-                <li><a data-target="#routes" data-toggle="tab">Routes</a></li>
-                <li><a data-target="#permissions" data-toggle="tab">Permissions</a></li>
+                <li><a data-target="#routes" data-toggle="tab">Routing</a></li>
+                <!--<li><a data-target="#permissions" data-toggle="tab">Permissions</a></li>-->
             </ul>
             <div class="tab-content">
                 <h5>"{{name}}" Instances</h5>
                 <div class="tab-pane active" id="instances">
                     <table id="object_instances_tbl" ></table>
                     <div class="btn-group">
-                        <button class="btn btn-small"><i class="icon icon-edit"></i></button>
-                        <button class="btn btn-small"><i class="icon icon-plus"></i></button>
-                        <button class="btn btn-small"><i class="icon icon-minus"></i></button>
+                        <button id="edit_selected_object_btn" class="btn btn-small"><i class="icon icon-edit"></i></button>
+                        <button id="remove_selected_object_btn" class="btn btn-small"><i class="icon icon-minus"></i></button>
                     </div>
                     <br/>
 
@@ -47,9 +46,13 @@
                             <label class="control-label">Object data</label>
 
                             <div class="controls">
-                                <textarea rows="6" style="width:350px;"/>
+                                <textarea id="object_instance_json" rows="6" style="width:350px;"/>
                             </div>
-                            <button class="btn">Save</button>
+                            <span class="inline-help" style="color: red;margin-left: 10px" id="object_instance_json_error"/>
+                            <div class="btn-group">
+                                <button id="create_new_object_instance_btn" class="btn">Create</button>
+                                <button id="save_object_instance_btn" class="btn">Save</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -59,11 +62,11 @@
                             <label class="control-label">Proxy function</label>
 
                             <div class="controls">
-                                <textarea rows="10" style="width:400px"></textarea>
+                                <textarea id="proxy_function_code" rows="10" style="width:400px">{{proxy_fun_code}}</textarea>
                             </div>
                         </div>
-                        <button class="btn">Save</button>
-                        <span class="inline-help" style="color: red;margin-left: 10px" id="proxy_code_error"/>
+                        <button id="save_proxy_function_code_btn" class="btn">Save</button>
+                        <span class="inline-help" style="color: red;margin-left: 10px" id="proxy_function_code_error"/>
                     </div>
                 </div>
                 <div class="tab-pane" id="routes">
@@ -72,16 +75,18 @@
                             <label class="control-label">Route pattern</label>
 
                             <div class="controls">
-                                <input type="text"/>
+                                <input id="object_type_route_pattern" type="text" value="{{route_pattern}}"/>
                                 <button class="btn">Save</button>
                             </div>
                         </div>
                     </div>
                 </div>
+<!--
 
                 <div class="tab-pane" id="permissions">
                     <h3>Permissions</h3>
                 </div>
+-->
 
             </div>
 

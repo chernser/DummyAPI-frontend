@@ -5,7 +5,7 @@ define([
 
 
 
-], function (Backbone, Marionette, SlickGrid) {
+], function (Backbone, Marionette) {
 
 
     var view = Marionette.ItemView.extend({
