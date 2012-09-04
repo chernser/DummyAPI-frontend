@@ -31,6 +31,11 @@ define([
                     callback(err, result);
                 }
             });
+        },
+
+        sendEvent: function(event_name, event_data, callback) {
+            var that = this;
+            this.doAction('send_event', {name: event_name, data: event_data}, callback);
         }
 
 
