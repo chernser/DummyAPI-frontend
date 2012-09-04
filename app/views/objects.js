@@ -66,7 +66,7 @@ define([
         },
 
         loadObjectInstances:function () {
-
+            var view = this;
             this.instances.load(function (err, model) {
                 var data = model.toJSON();
 
@@ -74,16 +74,22 @@ define([
                 var fields = {
                     _id:{name:"Id"}
                 };
+                $("#object_type_id_field").append("<option>_id</option>");
                 for (var index in data) {
                     var item = data[index];
                     for (var field in item) {
                         if (field == '_id' || field == 'app_id' || field == '__objectType') {
                             continue;
                         }
+
+                        if (!fields.hasOwnProperty(field)) {
+                            $("#object_type_id_field").append("<option>" + field + "</option>");
+                        }
                         fields[field] = {name:field};
                     }
                 }
 
+                $("#object_type_id_field").val(view.model.get("id_field"));
 
                 Helpers.showGrid("#object_instances_tbl", "", fields, {datatype:"local"});
                 Helpers.setGridData("#object_instances_tbl", data);
@@ -158,7 +164,10 @@ define([
             'click #save_proxy_function_code_btn':'onSaveProxyFunctionCodeBtn',
             'click #create_new_object_instance_btn':'onCreateNewObjectInstanceBtn',
             'click #edit_selected_object_btn' : 'onEditSelectedObjectBtn',
-            'click #remove_selected_object_btn': 'onRemoveSelectedObjectBtn'
+            'click #remove_selected_object_btn': 'onRemoveSelectedObjectBtn',
+            'click #save_object_instance_btn' : 'onSaveObjectInstanceBtn',
+            'change #object_type_id_field' : 'onIdFieldChange',
+            'click #save_object_type_route_pattern_btn' : 'onSaveObjectTypeRoutePatternBtn'
 
         },
 
@@ -200,6 +209,11 @@ define([
                 if (result.value != 123) {
                     throw "invalid self-test result";
                 }
+
+                this.model.set("proxy_fun_code", code);
+                this.model.put(function(err, model) {
+                    debug("Proxy code saved");
+                });
             } catch (E) {
                 debug("Error in proxy code: ", E);
                 $("#proxy_function_code_error").text(E);
@@ -209,18 +223,20 @@ define([
         },
 
         onCreateNewObjectInstanceBtn:function () {
-
+            var view = this;
             try {
                 var instance = JSON.parse($("#object_instance_json").val());
+                this.cur_obj_inst.clear();
                 instance.app_id = this.app_id;
                 instance.__objectType = this.model.getId();
-                this.cur_obj_inst.clear();
                 this.cur_obj_inst.set(instance);
+                delete this.cur_obj_inst.id;
                 debug("putting object instance: ", this.cur_obj_inst);
                 if (this.cur_obj_inst.get("__objectType") !== '') {
                     this.cur_obj_inst.put(function (err, model) {
                         debug("Result of putting object instance: ", err, model);
-
+                        view.loadObjectInstances();
+                        view.renderCurrentObjectInstance();
                     });
                 }
 
@@ -242,6 +258,7 @@ define([
         },
 
         onRemoveSelectedObjectBtn: function() {
+            var view = this;
             var instance = Helpers.getSelectedRowData("#object_instances_tbl");
             if (instance !== null) {
 
@@ -252,11 +269,44 @@ define([
                 debug("Selected instance: ", this.cur_obj_inst, this.cur_obj_inst.isNew());
                 this.cur_obj_inst.remove(function(err, model) {
                     debug("Instance removed");
-
-
+                    view.loadObjectInstances();
                 });
-
             }
+        },
+
+        onSaveObjectInstanceBtn: function() {
+            var view = this;
+            try {
+                var instance = JSON.parse($("#object_instance_json").val());
+                this.cur_obj_inst.clear();
+                instance.app_id = this.app_id;
+                instance.__objectType = this.model.getId();
+                this.cur_obj_inst.set(instance);
+                debug("putting object instance: ", this.cur_obj_inst);
+                if (this.cur_obj_inst.get("__objectType") !== '') {
+                    this.cur_obj_inst.put(function (err, model) {
+                        debug("Result of putting object instance: ", err, model);
+                        view.loadObjectInstances();
+                    });
+                }
+
+            } catch (E) {
+                debug("Failed to parse object instance JSON");
+                $("#object_instance_json_error").text(E);
+            }
+        },
+
+        onIdFieldChange:function() {
+            var id_field = $("#object_type_id_field").val();
+            debug("Id field changed: ", id_field);
+            this.model.set("id_field", id_field);
+            this.model.put(function(err, model) {
+                debug("Object type save result: ", model);
+            });
+        },
+
+        onSaveObjectTypeRoutePatternBtn:function() {
+            /// this.model.set("route_pattern")
         }
 
     });

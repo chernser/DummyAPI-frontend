@@ -28,16 +28,27 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a data-target="#instances" data-toggle="tab">Instances</a></li>
                 <li><a data-target="#logic" data-toggle="tab">Logic</a></li>
-                <li><a data-target="#routes" data-toggle="tab">Routing</a></li>
+                <!--<li><a data-target="#routes" data-toggle="tab">Routing</a></li>-->
                 <!--<li><a data-target="#permissions" data-toggle="tab">Permissions</a></li>-->
             </ul>
             <div class="tab-content">
-                <h5>"{{name}}" Instances</h5>
                 <div class="tab-pane active" id="instances">
-                    <table id="object_instances_tbl" ></table>
+                    <div class="form">
+                        <fieldset>
+                            <label>Id field:</label>
+
+                            <div class="controls">
+                                <select id="object_type_id_field"></select>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <table id="object_instances_tbl"></table>
                     <div class="btn-group">
-                        <button id="edit_selected_object_btn" class="btn btn-small"><i class="icon icon-edit"></i></button>
-                        <button id="remove_selected_object_btn" class="btn btn-small"><i class="icon icon-minus"></i></button>
+                        <button id="edit_selected_object_btn" class="btn btn-small"><i class="icon icon-edit"></i>
+                        </button>
+                        <button id="remove_selected_object_btn" class="btn btn-small"><i class="icon icon-minus"></i>
+                        </button>
                     </div>
                     <br/>
 
@@ -48,7 +59,9 @@
                             <div class="controls">
                                 <textarea id="object_instance_json" rows="6" style="width:350px;"/>
                             </div>
-                            <span class="inline-help" style="color: red;margin-left: 10px" id="object_instance_json_error"/>
+                            <span class="inline-help" style="color: red;margin-left: 10px"
+                                  id="object_instance_json_error"/>
+
                             <div class="btn-group">
                                 <button id="create_new_object_instance_btn" class="btn">Create</button>
                                 <button id="save_object_instance_btn" class="btn">Save</button>
@@ -62,13 +75,21 @@
                             <label class="control-label">Proxy function</label>
 
                             <div class="controls">
-                                <textarea id="proxy_function_code" rows="10" style="width:400px">{{proxy_fun_code}}</textarea>
+                                <textarea id="proxy_function_code" rows="10"
+                                          style="width:400px">{{#if proxy_fun_code}}{{proxy_fun_code}}
+                                        {{else}}
+function proxy(resource){
+    return resource;
+}
+                                        {{/if}}
+                                </textarea>
                             </div>
                         </div>
                         <button id="save_proxy_function_code_btn" class="btn">Save</button>
                         <span class="inline-help" style="color: red;margin-left: 10px" id="proxy_function_code_error"/>
                     </div>
                 </div>
+                <!--
                 <div class="tab-pane" id="routes">
                     <div class="form-horizontal">
                         <div class="control-group">
@@ -76,17 +97,17 @@
 
                             <div class="controls">
                                 <input id="object_type_route_pattern" type="text" value="{{route_pattern}}"/>
-                                <button class="btn">Save</button>
+                                <button id="save_object_type_route_pattern_btn" class="btn">Save</button>
                             </div>
                         </div>
                     </div>
-                </div>
-<!--
+                </div>-->
+                <!--
 
-                <div class="tab-pane" id="permissions">
-                    <h3>Permissions</h3>
-                </div>
--->
+                                <div class="tab-pane" id="permissions">
+                                    <h3>Permissions</h3>
+                                </div>
+                -->
 
             </div>
 
