@@ -278,7 +278,7 @@ define([
 
                 this.cur_obj_inst.clear();
                 instance.app_id = this.app_id;
-                instance.__objectType = this.model.getId();
+                instance.__objectType = this.model.get("name");
                 this.cur_obj_inst.set(instance);
                 debug("Selected instance: ", this.cur_obj_inst, this.cur_obj_inst.isNew());
                 this.cur_obj_inst.remove(function (err, model) {
@@ -294,7 +294,7 @@ define([
                 var instance = JSON.parse($("#object_instance_json").val());
                 this.cur_obj_inst.clear();
                 instance.app_id = this.app_id;
-                instance.__objectType = this.model.getId();
+                instance.__objectType = this.model.get("name");
                 this.cur_obj_inst.set(instance);
                 debug("putting object instance: ", this.cur_obj_inst);
                 if (this.cur_obj_inst.get("__objectType") !== '') {
