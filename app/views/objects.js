@@ -190,7 +190,7 @@ define([
                 this.model.set({name:object_type_name});
                 this.model.put(function (err, model) {
                     debug("Result of creating new object type: ", err, model, view.model);
-                    if (err.status == 409) {
+                    if (err !== null && err.status == 409) {
                         alert("Object type already exists.");
                     } else {
                         view.render();
