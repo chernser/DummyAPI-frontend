@@ -8,9 +8,10 @@ define([
     "underscore"
 ], function (App, Backbone, Marionette, _) {
 
-    var API_HOST = 'http://localhost:8000';
+    var API_HOST = 'http://' + App.config.backend.server;
     var API_PREFIX = '/api/1/';
 
+    debug("API_HOST: ", API_HOST);
 
     var BackendBaseModel = Backbone.Model.extend({
         idAttribute:'_id',

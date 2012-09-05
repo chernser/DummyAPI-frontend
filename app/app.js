@@ -1,4 +1,6 @@
 define([
+    "app.config",
+
     // Libraries.
     "jquery",
     "underscore",
@@ -8,8 +10,8 @@ define([
     "plugins/backbone.marionette"
 ],
 
-    function ($, _, Backbone, Marionette) {
-
+    function (config, $, _, Backbone, Marionette) {
+        debug(config);
         var TEMPLATE_PREFIX = 'app/templates/';
         var TEMPLATE_EXT = '.hbs';
 
@@ -35,6 +37,8 @@ define([
             return app.getJSTTemplate(template, data);
         };
 
+
+        app.config = config; // for easy access
 
         return app;
 
