@@ -1,15 +1,47 @@
-<div class="span9">
+<div class="span12">
     <div class="row-fluid">
-            <h3>General Settings</h3>
+        <h3>General Settings</h3>
     </div>
     <div class="row-fluid">
-        <br/>
-        <div class="form form-horizontal">
-            <div class="control-group">
-                <label class="control-label">Access Token</label>
-                <div class="controls">
-                    <input type="text" class="input-prepend" value="{{access_token}}"/>
-                    <button id="renew_access_token_btn" class="btn"><i class="icon icon-refresh"/>&nbsp;Get New</button>
+        <div class="span12">
+            <br/>
+
+            <div class="form form-horizontal">
+                <div class="control-group">
+                    <label class="control-label">Access Token</label>
+
+                    <div class="controls">
+                        <input type="text" class="input-prepend" value="{{access_token}}"/>
+                        <button id="renew_access_token_btn" class="btn"><i class="icon icon-refresh"/>&nbsp;Get New
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <br/>
+
+            <div class="form">
+                <div class="control-group">
+                    <label class="control-label">Description</label>
+
+                    <div class="controls">
+                        <textarea id="application_description" rows="5" cols="10"
+                                  class="input-xxlarge">{{description}}</textarea>
+                    </div>
+                    <button id="save_application_description_btn" class="btn">Save</button>
+                </div>
+            </div>
+            <br/>
+
+            <legend>Removing Application</legend>
+            <div class="form">
+                <div class="control-group">
+                    <label class="control-label">Enter confirmation code:&nbsp;<i id="confirmation_code">asdasd</i></label>
+
+                    <div class="controls input-append">
+
+                        <input class="input-small" maxlength="5" id="delete_application_confirmation_code" type="text"/>
+                        <button id="delete_application_btn" class="btn btn-danger">Remove</button>
+                    </div>
                 </div>
             </div>
         </div>

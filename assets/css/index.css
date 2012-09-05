@@ -35,6 +35,13 @@ body {
 
 }
 
+#delete_application_confirmation_code {
+    font-size: 14pt;
+}
+
+#confirmation_code {
+    font-size: 14pt;
+}
 
 .fake-btn {
     cursor: pointer;

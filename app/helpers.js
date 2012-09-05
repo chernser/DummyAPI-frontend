@@ -113,6 +113,12 @@ define([
 
     };
 
+    Helpers.generateCode = function() {
+        var str = Math.random().toString(32);
+
+        return str.substr(str.length - 5);
+    };
+
 
     return Helpers;
 });
