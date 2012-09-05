@@ -1,0 +1,4 @@
+dist
+.idea
+*.log
+node_modules

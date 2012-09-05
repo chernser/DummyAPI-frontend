@@ -1,0 +1,56 @@
+<div class="span9">
+    <div class="row-fluid">
+        <h3>Socket.Io Notification Settings</h3>
+    </div>
+
+    <div class="row-fluid">
+
+        <div class="form">
+            <legend>Proxy Function</legend>
+            <div class="control-group">
+
+
+                <div class="controls">
+                    <textarea id="proxy_function_code" rows="8" style="width: 350px;">{{#if notify_proxy_fun}}
+{{notify_proxy_fun}}
+                        {{else}}
+function proxy(event, data) {
+    return notification;
+}
+                        {{/if}}
+                    </textarea>
+                    <button id="proxy_function_help_btn">?</button>
+                </div>
+                <button id="save_proxy_function_code_btn" class="btn">Save</button>
+                <span class="inline-help" style="color: red;margin-left: 10px" id="proxy_function_code_error"/>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row-fluid">
+        <div class="form">
+            <legend>Sending Notifications</legend>
+            <div class="control-group">
+                <label>Event name</label>
+                <div class="controls">
+                    <input id="event_name" type="text" value="event:test"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label>Event data</label>
+                <div class="controls">
+                    <textarea id="event_data" rows="8" style="width: 350px">
+{
+"value": 123
+}
+                    </textarea>
+                </div>
+            </div>
+            <button id="send_notification_btn" class="btn">Send</button>
+            <i id="sending_result"></i>
+        </div>
+    </div>
+
+</div>

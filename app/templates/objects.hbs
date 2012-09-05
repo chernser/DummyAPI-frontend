@@ -1,0 +1,116 @@
+<div class="span12">
+    <div class="row-fluid">
+        <h3>Object Types Management</h3>
+    </div>
+    <div class="row-fluid">
+
+        <!-- Objects list -->
+        <div class="span2">
+            <ul id="object_types_nav_list" class="nav nav-list"
+                style="min-height: 300px; max-height: 300px; overflow: auto; border: dashed 1px #d3d3d3;">
+                <li>
+                    <div id="new_object_type_name_form" class="hidden">
+                        <input id="new_object_type_name" value="Test resource"/>
+                        <i id="confirm_new_object_type_name" class="fake-btn icon icon-ok"></i>
+                        <i id="cancel_new_object_type" class="fake-btn icon icon-remove"></i>
+                    </div>
+                </li>
+            </ul>
+            <div class="btn-group">
+                <button id="remove_object_type_btn" class="btn"><i class="icon icon-minus"></i></button>
+                <button id="add_object_type_btn" class="btn"><i class="icon icon-plus"></i></button>
+            </div>
+        </div>
+
+
+        <!-- Tabs -->
+        <div id="object_tabs" class="span10 tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-target="#instances" data-toggle="tab">Instances</a></li>
+                <li><a data-target="#logic" data-toggle="tab">Logic</a></li>
+                <!--<li><a data-target="#routes" data-toggle="tab">Routing</a></li>-->
+                <!--<li><a data-target="#permissions" data-toggle="tab">Permissions</a></li>-->
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="instances">
+                    <div class="form">
+                        <fieldset>
+                            <label>Id field:</label>
+
+                            <div class="controls">
+                                <select id="object_type_id_field"></select>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <table id="object_instances_tbl"></table>
+                    <div class="btn-group">
+                        <button id="edit_selected_object_btn" class="btn btn-small"><i class="icon icon-edit"></i>
+                        </button>
+                        <button id="remove_selected_object_btn" class="btn btn-small"><i class="icon icon-minus"></i>
+                        </button>
+                    </div>
+                    <br/>
+
+                    <div class="form">
+                        <div class="controls-group">
+                            <label class="control-label">Object data</label>
+
+                            <div class="controls">
+                                <textarea id="object_instance_json" rows="6" style="width:350px;"/>
+                            </div>
+                            <span class="inline-help" style="color: red;margin-left: 10px"
+                                  id="object_instance_json_error"/>
+
+                            <div class="btn-group">
+                                <button id="create_new_object_instance_btn" class="btn">Create</button>
+                                <button id="save_object_instance_btn" class="btn">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="logic">
+                    <div class="form">
+                        <div class="control-group">
+                            <label class="control-label">Proxy function</label>
+
+                            <div class="controls">
+                                <textarea id="proxy_function_code" rows="10"
+                                          style="width:400px">{{#if proxy_fun_code}}{{proxy_fun_code}}
+                                        {{else}}
+function proxy(resource){
+    return resource;
+}
+                                        {{/if}}
+                                </textarea>
+                            </div>
+                        </div>
+                        <button id="save_proxy_function_code_btn" class="btn">Save</button>
+                        <span class="inline-help" style="color: red;margin-left: 10px" id="proxy_function_code_error"/>
+                    </div>
+                </div>
+                <!--
+                <div class="tab-pane" id="routes">
+                    <div class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label">Route pattern</label>
+
+                            <div class="controls">
+                                <input id="object_type_route_pattern" type="text" value="{{route_pattern}}"/>
+                                <button id="save_object_type_route_pattern_btn" class="btn">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+                <!--
+
+                                <div class="tab-pane" id="permissions">
+                                    <h3>Permissions</h3>
+                                </div>
+                -->
+
+            </div>
+
+        </div>
+    </div>
+</div>

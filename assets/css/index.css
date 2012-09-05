@@ -1,0 +1,42 @@
+/* @import "h5bp.css"; */
+
+
+body {
+    padding-bottom: 40px;
+}
+
+/* Application selection screen */
+
+#applications_list {
+    list-style: none;
+
+}
+
+#applications_list li {
+    font-size: 18pt;
+    padding: 5px;
+}
+
+.nav-tabs a {
+    cursor: pointer;
+}
+
+#new_object_type_name_form  {
+    white-space: nowrap;
+}
+
+#new_object_type_name {
+    height: 14px;
+    font-size: 9pt;
+    width: 75%;
+    border: none;
+    border-bottom: solid 1px #d3d3d3;
+    padding-bottom: 2px;
+
+}
+
+
+.fake-btn {
+    cursor: pointer;
+}
+
