@@ -31,14 +31,9 @@ define([
         },
 
 
-        selectObjectType: function(object_type) {
-
+        selectObjectType:function (object_type) {
             this.model.clear();
             this.model.set(object_type.attributes);
-            this.cur_obj_inst.clear();
-            this.cur_obj_inst.set("__objectType", this.model.getId());
-            this.instances.setObjectTypeName(this.model.getId());
-
         },
 
         loadObjectTypes:function (callback) {
@@ -67,6 +62,11 @@ define([
 
         loadObjectInstances:function () {
             var view = this;
+            this.cur_obj_inst.clear();
+            this.cur_obj_inst.set("__objectType", this.model.get("name"));
+            this.instances.setObjectTypeName(this.model.get("name"));
+
+            debug("loading instances: ", this.model.get("name"), this.cur_obj_inst, this.instances, this.model);
             this.instances.load(function (err, model) {
                 var data = model.toJSON();
 
@@ -103,14 +103,13 @@ define([
             });
 
 
-
             Helpers.preventTabChangeFocus("#proxy_function_code");
             Helpers.preventTabChangeFocus("#object_instance_json");
         },
 
         onRender:function () {
             var view = this;
-            this.loadObjectTypes(function(err, model) {
+            this.loadObjectTypes(function (err, model) {
                 if (_.isUndefined(view.model.get("name")) || _.isEmpty(view.model.get("name"))) {
                     debug("Object type not selected: ", model.models[0]);
                     if (model.models.length > 0) {
@@ -129,10 +128,10 @@ define([
         },
 
         renderCurrentObjectType:function () {
-            debug("Rendering object type: ", this.model.getId());
+            debug("Rendering object type: ", this.model.get("name"));
             var view = this;
 
-            $("#object_types_nav_list li").each(function(index, item) {
+            $("#object_types_nav_list li").each(function (index, item) {
                 var data = $(item).data();
                 if (_.isUndefined(data.get)) {
                     return;
@@ -161,13 +160,15 @@ define([
             'click #add_object_type_btn':'onAddObjectTypeBtn',
             'click #cancel_new_object_type':'onCancelNewObjectType',
             'click #confirm_new_object_type_name':'onConfirmNewObjectTypeName',
+            'click #remove_object_type_btn':'onRemoveObjectTypeBtn',
             'click #save_proxy_function_code_btn':'onSaveProxyFunctionCodeBtn',
             'click #create_new_object_instance_btn':'onCreateNewObjectInstanceBtn',
-            'click #edit_selected_object_btn' : 'onEditSelectedObjectBtn',
-            'click #remove_selected_object_btn': 'onRemoveSelectedObjectBtn',
-            'click #save_object_instance_btn' : 'onSaveObjectInstanceBtn',
-            'change #object_type_id_field' : 'onIdFieldChange',
-            'click #save_object_type_route_pattern_btn' : 'onSaveObjectTypeRoutePatternBtn'
+            'click #edit_selected_object_btn':'onEditSelectedObjectBtn',
+            'click #remove_selected_object_btn':'onRemoveSelectedObjectBtn',
+            'click #save_object_instance_btn':'onSaveObjectInstanceBtn',
+            'change #object_type_id_field':'onIdFieldChange',
+            'click #save_object_type_route_pattern_btn':'onSaveObjectTypeRoutePatternBtn',
+            'keypress #new_object_type_name' : 'onKeyPressedOnNewObjectTypeNameInput'
 
         },
 
@@ -188,11 +189,24 @@ define([
                 this.model.clear();
                 this.model.set({name:object_type_name});
                 this.model.put(function (err, model) {
-                    debug("Result of creating new object type: ", err, model);
-                    view.render();
+                    debug("Result of creating new object type: ", err, model, view.model);
+                    if (err.status == 409) {
+                        alert("Object type already exists.");
+                    } else {
+                        view.render();
+                    }
                 });
                 $("#new_object_type_name_form").addClass('hidden');
             }
+        },
+
+        onRemoveObjectTypeBtn:function () {
+            var view = this;
+            this.model.remove(function (err, model) {
+                debug("Result of removing object type: ", err, model);
+                view.model.set("name", '');
+                view.render();
+            });
         },
 
         onSaveProxyFunctionCodeBtn:function () {
@@ -211,7 +225,7 @@ define([
                 }
 
                 this.model.set("proxy_fun_code", code);
-                this.model.put(function(err, model) {
+                this.model.put(function (err, model) {
                     debug("Proxy code saved");
                 });
             } catch (E) {
@@ -227,12 +241,12 @@ define([
             try {
                 var instance = JSON.parse($("#object_instance_json").val());
                 this.cur_obj_inst.clear();
-                instance.app_id = this.app_id;
-                instance.__objectType = this.model.getId();
+                this.cur_obj_inst.set("__objectType", this.model.get("name"));
+                this.cur_obj_inst.set("app_id", this.app_id);
                 this.cur_obj_inst.set(instance);
                 delete this.cur_obj_inst.id;
-                debug("putting object instance: ", this.cur_obj_inst);
                 if (this.cur_obj_inst.get("__objectType") !== '') {
+                    debug("putting object instance: ", this.cur_obj_inst);
                     this.cur_obj_inst.put(function (err, model) {
                         debug("Result of putting object instance: ", err, model);
                         view.loadObjectInstances();
@@ -247,17 +261,17 @@ define([
 
         },
 
-        onEditSelectedObjectBtn: function() {
+        onEditSelectedObjectBtn:function () {
             var instance = Helpers.getSelectedRowData("#object_instances_tbl");
             if (instance !== null) {
-                debug("Selected instance: " , instance);
+                debug("Selected instance: ", instance);
 
                 $("#object_instance_json").val(JSON.stringify(instance, null, 4));
             }
 
         },
 
-        onRemoveSelectedObjectBtn: function() {
+        onRemoveSelectedObjectBtn:function () {
             var view = this;
             var instance = Helpers.getSelectedRowData("#object_instances_tbl");
             if (instance !== null) {
@@ -267,14 +281,14 @@ define([
                 instance.__objectType = this.model.getId();
                 this.cur_obj_inst.set(instance);
                 debug("Selected instance: ", this.cur_obj_inst, this.cur_obj_inst.isNew());
-                this.cur_obj_inst.remove(function(err, model) {
+                this.cur_obj_inst.remove(function (err, model) {
                     debug("Instance removed");
                     view.loadObjectInstances();
                 });
             }
         },
 
-        onSaveObjectInstanceBtn: function() {
+        onSaveObjectInstanceBtn:function () {
             var view = this;
             try {
                 var instance = JSON.parse($("#object_instance_json").val());
@@ -296,17 +310,23 @@ define([
             }
         },
 
-        onIdFieldChange:function() {
+        onIdFieldChange:function () {
             var id_field = $("#object_type_id_field").val();
             debug("Id field changed: ", id_field);
             this.model.set("id_field", id_field);
-            this.model.put(function(err, model) {
+            this.model.put(function (err, model) {
                 debug("Object type save result: ", model);
             });
         },
 
-        onSaveObjectTypeRoutePatternBtn:function() {
+        onSaveObjectTypeRoutePatternBtn:function () {
             /// this.model.set("route_pattern")
+        },
+
+        onKeyPressedOnNewObjectTypeNameInput: function(event) {
+            if (event.keyCode == 13) {
+                this.onConfirmNewObjectTypeName();
+            }
         }
 
     });
