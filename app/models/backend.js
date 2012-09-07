@@ -8,16 +8,14 @@ define([
     "underscore"
 ], function (App, Backbone, Marionette, _) {
 
-    var API_HOST = 'http://' + App.config.backend.server;
     var API_PREFIX = '/api/1/';
-
-    debug("API_HOST: ", API_HOST);
-
     var BackendBaseModel = Backbone.Model.extend({
         idAttribute:'_id',
 
         url:function () {
-            return [API_HOST, API_PREFIX, this.resourceUrl()].join('');
+            var url = ['http://', App.config.backend.server, API_PREFIX, this.resourceUrl()].join('');
+          debug("backend url: ", url);
+          return url;
         },
 
         resourceUrl:function () {
@@ -123,7 +121,7 @@ define([
     var BackendBaseCollection = Backbone.Collection.extend({
 
         url:function () {
-            return [API_HOST, API_PREFIX, this.collectionUrl()].join('');
+            return ['http://', App.config.backend.server, API_PREFIX, this.collectionUrl()].join('');
         },
 
         collectionUrl:function () {

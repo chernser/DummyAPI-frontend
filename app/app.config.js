@@ -1,12 +1,24 @@
 define([
 
-], function() {
+], function () {
 
-    var config = {
-        backend: {
-            server: window.location.hostname + ":8000"
-        }
-    };
+  var backends = [
+    {
+      title:"localhost",
+      server:window.location.hostname + ":8000"
+    },
 
-    return config;
+    {
+      title:"api.f9test.com",
+      server:"api.f9test.com:8000"
+    }
+  ];
+
+
+  var config = {
+    backends: backends,
+    backend:backends[0]
+  };
+
+  return config;
 });
