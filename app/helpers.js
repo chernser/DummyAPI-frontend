@@ -48,7 +48,9 @@ define([
       rowList:[10, 20, 30],
       sortname:'name',
       sortorder:'desc',
-      viewrecords:false
+      viewrecords:false,
+      autowidth: true,
+      ExpandColClick: true
 
     };
 

@@ -265,6 +265,10 @@ define([
     onEditSelectedObjectBtn:function () {
       var instance = Helpers.getSelectedRowData("#object_instances_tbl");
       if (instance !== null) {
+        var instances = this.instances.where({_id: instance._id});
+        if (instances.length > 0) {
+          instance = instances[0].toJSON();
+        }
         debug("Selected instance: ", instance);
 
         $("#object_instance_json").val(JSON.stringify(instance, null, 4));
