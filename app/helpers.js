@@ -50,7 +50,8 @@ define([
       sortorder:'desc',
       viewrecords:false,
       autowidth: true,
-      ExpandColClick: true
+      shrinkToFit: false
+
 
     };
 
