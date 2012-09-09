@@ -4,7 +4,6 @@ define([
 
 
   var alt_backends = {
-    'api.f9test.com':'api.f9test.com:8000',
     'localhost':'localhost:8000'
   };
 
