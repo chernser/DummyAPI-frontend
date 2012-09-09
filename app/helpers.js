@@ -153,7 +153,7 @@ define([
 
       error:function (xhr) {
         if (_.isFunction(callback)) {
-          callback('invalid', null);
+          callback('invalid', xhr);
         }
       }
 

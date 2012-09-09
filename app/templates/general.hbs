@@ -32,6 +32,29 @@
             </div>
             <br/>
 
+
+            <legend>Cloning Application</legend>
+            <div class="form">
+                <fieldset>
+                <div class="control-group">
+                    <label class="control-label">Clone name</label>
+                    <div class="controls">
+                        <input id="clone_name" type="text" value="{{name}}_clone"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <label class="checkbox">
+                            <input id="clone_instances_flag" type="checkbox" checked="checked"/> clone instances
+                        </label>
+                    </div>
+                </div>
+
+                </fieldset>
+                <button id="clone_application_btn" class="btn">Clone</button>
+                <i id="cloning_error" style="color: red;"></i>
+            </div>
+            <br/>
             <legend>Removing Application</legend>
             <div class="form">
                 <div class="control-group">

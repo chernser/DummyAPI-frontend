@@ -95,8 +95,8 @@ define([
      * I've called it action
      */
     doAction:function (action, args, opts, callback) {
-      opts = _.isFunction(opts) ? null : opts;
       callback = _.isFunction(opts) ? opts : callback;
+      opts = _.isFunction(opts) ? null: opts;
       Helpers.doHttpRequest(this.url() + '/' + action, args, opts, callback);
     }
   });

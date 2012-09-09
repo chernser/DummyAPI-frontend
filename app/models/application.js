@@ -1,47 +1,50 @@
 define([
-    "models/backend",
-            "backbone",
-    "plugins/backbone.marionette",
-    "underscore"
+  "models/backend",
+  "backbone",
+  "plugins/backbone.marionette",
+  "underscore"
 
 ], function (Backend, Backbone, Marionette, _) {
 
-    var model =  Backend.Model.extend({
+  var model = Backend.Model.extend({
 
-        idAttribute: 'id',
+    idAttribute:'id',
 
-        defaults: {
-            name: "My Sample "
-        },
-
-
-        resourceUrl: function() {
-            return 'app/' + this.getId();
-        },
+    defaults:{
+      name:"My Sample "
+    },
 
 
-        renewAccessToken: function(callback) {
-            var that = this;
-            this.doAction('new_access_token', {}, function(err, result) {
-                if (result !== null) {
-                    that.set('access_token', result.access_token);
-                }
+    resourceUrl:function () {
+      return 'app/' + this.getId();
+    },
 
-                if (_.isFunction(callback)) {
-                    callback(err, result);
-                }
-            });
-        },
 
-        sendEvent: function(event_name, event_data, callback) {
-            var that = this;
-            this.doAction('send_event', {name: event_name, data: event_data}, callback);
+    renewAccessToken:function (callback) {
+      var that = this;
+      this.doAction('new_access_token', {}, function (err, result) {
+        if (result !== null) {
+          that.set('access_token', result.access_token);
         }
 
+        if (_.isFunction(callback)) {
+          callback(err, result);
+        }
+      });
+    },
 
-    });
+    sendEvent:function (event_name, event_data, callback) {
+      this.doAction('send_event', {name:event_name, data:event_data}, callback);
+    },
+
+    clone:function (opts, callback) {
+      this.doAction('clone', opts, callback);
+    }
 
 
-    return model;
+  });
+
+
+  return model;
 
 });
