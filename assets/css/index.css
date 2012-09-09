@@ -1,4 +1,8 @@
-/* @import "h5bp.css"; */
+@import "h5bp.css";
+@import "bootstrap.css";
+@import "bootstrap-responsive.css";
+@import "smoothness/jquery-ui-1.8.16.custom.css";
+@import "ui.jqgrid.css";
 
 
 body {
@@ -35,6 +39,13 @@ body {
 
 }
 
+#delete_application_confirmation_code {
+    font-size: 14pt;
+}
+
+#confirmation_code {
+    font-size: 14pt;
+}
 
 .fake-btn {
     cursor: pointer;

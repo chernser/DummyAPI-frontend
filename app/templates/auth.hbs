@@ -1,10 +1,10 @@
-<div class="span9">
+<div class="span12">
     <div class="row-fluid">
         <h3>Application Authentication</h3>
     </div>
 
     <div class="row-fluid">
-        <div id="auth_tabs" class="span10 tabbable">
+        <div id="auth_tabs" class="span12 tabbable">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-target="#users_tab" data-toggle="tab">Users</a></li>
                 <li><a data-target="#groups_tab" data-toggle="tab">Groups</a></li>
@@ -35,6 +35,20 @@
                             <div class="controls">
                                 <input field="password" type="text"/>
                                 <!--<button class="btn">generate</button>-->
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Resource</label>
+                            <div class="controls">
+                                <select id="resource_selector" field="resource"></select>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Resource Id</label>
+                            <div class="controls">
+                                <input field="resource_id" type="text"/>
                             </div>
                         </div>
 

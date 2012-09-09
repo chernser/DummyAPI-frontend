@@ -62,7 +62,8 @@ module.exports = function (grunt) {
         // only want to load one stylesheet in index.html.
         mincss:{
             "dist/release/index.css":[
-                "assets/css/h5bp.css"
+                "assets/css/h5bp.css",
+                "assets/css/**/*.css"
             ]
         },
 
@@ -111,6 +112,7 @@ module.exports = function (grunt) {
             release:{
                 // This makes it easier for deploying, by defaulting to any IP.
                 host:"0.0.0.0",
+                port:80,
 
                 // Ensure the favicon is mapped correctly.
                 files:{ "favicon.ico":"favicon.ico" },
