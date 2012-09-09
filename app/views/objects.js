@@ -69,16 +69,19 @@ define([
       debug("loading instances: ", this.model.get("name"), this.cur_obj_inst, this.instances, this.model);
       this.instances.load(function (err, model) {
         var data = model.toJSON();
+        var id_field = _.isUndefined(view.model.get("id_field")) ? "_id" : view.model.get("id_field");
 
 
         var fields = {
-          _id:{name:"Id"}
+         // _id:{name:"Id"}
         };
-        $("#object_type_id_field").append("<option>_id</option>");
+
+        fields[id_field] = {name: id_field};
+        $("#object_type_id_field").append("<option>" + id_field + "</option>");
         for (var index in data) {
           var item = data[index];
           for (var field in item) {
-            if (field == '_id' || field == 'app_id' || field == '__objectType') {
+            if (field == id_field || field == 'app_id' || field == '__objectType') {
               continue;
             }
 
@@ -89,7 +92,7 @@ define([
           }
         }
 
-        $("#object_type_id_field").val(view.model.get("id_field"));
+        $("#object_type_id_field").val(id_field);
 
         Helpers.showGrid("#object_instances_tbl", "", fields, {datatype:"local"});
         Helpers.setGridData("#object_instances_tbl", data);

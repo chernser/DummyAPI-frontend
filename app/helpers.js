@@ -14,11 +14,15 @@ define([
     for (var field in fields) {
       var fieldDesc = fields[field];
       colNames.push(_.isUndefined(fieldDesc.name) ? field : fieldDesc.name);
-      colModel.push({
+      var fieldModelDesc = {
         name:field,
         index:field,
         jsonmap:field
-      });
+      };
+      if (_.isNumber(fieldDesc.width)) {
+        fieldModelDesc.width = fieldDesc.width;
+      }
+      colModel.push(fieldModelDesc);
     }
 
     var options = {
@@ -43,7 +47,7 @@ define([
           return obj.length;
         }
       },
-      width:570,
+
       rowNum:10,
       rowList:[10, 20, 30],
       sortname:'name',
