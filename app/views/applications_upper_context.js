@@ -13,7 +13,11 @@ define([
     },
 
     serializeData:function () {
-      return {backends:app.config.backends};
+      var backends = [];
+      for (var title in app.config.backends) {
+        backends.push({title: title, server: app.config.backends[title]});
+      }
+      return {backends: backends};
     },
 
     events:{
@@ -27,7 +31,7 @@ define([
 
       debug("Backend changed to: ", backend_title, backend_server);
       $("#current_backend").text(backend_title);
-      app.config.backend.server = backend_server;
+      app.config.backend = backend_server;
       this.applications_view.reload();
 
     }

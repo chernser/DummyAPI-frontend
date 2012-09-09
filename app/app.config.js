@@ -1,24 +1,30 @@
 define([
+  "underscore"
+], function (_) {
 
-], function () {
 
-  var alt_backends = [
-    {
-      title:"api.f9test.com",
-      server:"api.f9test.com:8000"
-    }
-  ];
-
-  var default_backend = {
-    title:window.location.hostname,
-    server: window.location.hostname + ':8000'
+  var alt_backends = {
+    'api.f9test.com':'api.f9test.com:8000',
+    'localhost':'localhost:8000'
   };
 
-  var backends = [default_backend].concat(alt_backends);
+
+  var cur_hostname = window.location.hostname;
+  var backends = {};
+
+  backends[cur_hostname] = _.isUndefined(alt_backends[cur_hostname]) ? cur_hostname + ':8000' : alt_backends[cur_hostname];
+
+  for (var backend_title in alt_backends) {
+    if (backend_title == cur_hostname) {
+      continue;
+    }
+
+    backends[backend_title] = alt_backends[backend_title];
+  }
 
   var config = {
     backends:backends,
-    backend:backends[0]
+    backend:backends[window.location.hostname]
   };
 
   return config;
