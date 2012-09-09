@@ -29,6 +29,7 @@ define([
       this.user_groups = new UserGroups(attributes.model);
       this.current_user_group = new UserGroup({app_id:attributes.model.getId()});
 
+      this.object_types = attributes.model.get("object_types");
     },
 
     onShow:function () {
@@ -36,6 +37,14 @@ define([
         e.preventDefault();
         $(this).tab('show');
       });
+
+      var resource_selector = $("#resource_selector");
+      var object_type_name = null;
+      resource_selector.append("<option></option>");
+      for (var index in this.object_types) {
+        object_type_name = this.object_types[index].name;
+        resource_selector.append("<option>" + object_type_name + "</option>");
+      }
 
       this.initUsersTable();
       this.initGroupsTable();
@@ -94,7 +103,7 @@ define([
     },
 
     events:{
-      'change #user_edit_form input':'userFormInputChange',
+      'change #user_edit_form input, select':'userFormInputChange',
       'change #user_group_edit_form input':'userGroupFormInputChange',
       'click #create_user_btn':'createUserBtn',
       'click #save_user_btn':'saveUserBtn',
@@ -121,7 +130,7 @@ define([
 
     createUserBtn:function () {
       var view = this;
-      delete this.current_user.attributes.id;
+      delete this.current_user.id;
       this.current_user.put(function (err, model) {
         view.reloadUsers();
         view.renderCurrentUser();
@@ -176,7 +185,7 @@ define([
 
     onCreateUserGroupBtn:function () {
       var view = this;
-      delete this.current_user_group.attributes.id;
+      delete this.current_user_group.id;
       this.current_user_group.put(function (err, result) {
         view.reloadUserGroups();
         view.renderCurrentUserGroup();

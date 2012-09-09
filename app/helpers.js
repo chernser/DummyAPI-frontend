@@ -89,7 +89,7 @@ define([
 
   Helpers.renderModel = function (container_id, model) {
     for (var attr in model.attributes) {
-      var selector = [container_id, " input[field='", attr, "']"].join('');
+      var selector = [container_id, " [field='", attr, "']"].join('');
       $(selector).val(model.get(attr));
     }
   };
