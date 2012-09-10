@@ -4,196 +4,166 @@
 module.exports = function (grunt) {
 
 
-    grunt.initConfig({
+  grunt.initConfig({
 
-        // The clean task ensures all files are removed from the dist/ directory so
-        // that no files linger from previous builds.
-        clean:["dist/"],
+    clean:["dist/"],
 
-        // The lint task will run the build configuration and the application
-        // JavaScript through JSHint and report any errors.  You can change the
-        // options for this task, by reading this:
-        // https://github.com/cowboy/grunt/blob/master/docs/task_lint.md
-        lint:{
-            files:[
-                "build/config.js", "app/**/*.js"
-            ]
+    lint:{
+      files:[
+        "build/config.js", "app/**/*.js"
+      ]
+    },
+
+    jshint:{
+      options:{
+        scripturl:true,
+        evil:true
+      }
+    },
+
+    handlebars:{
+      all:{
+        options: {
+          processName: function(filename) {
+            return filename.replace(/^.*[\\\/]/, '').split('.')[0];
+          }
         },
-
-        // The jshint option for scripturl is set to lax, because the anchor
-        // override inside main.js needs to test for them so as to not accidentally
-        // route.
-        jshint:{
-            options:{
-                scripturl:true,
-                evil: true
-            }
-        },
-
-        handlebars_1:{
-            all:{
-                files:{
-                    "dist/debug/templates.js":["app/templates/**/*.hbs"]
-                }
-            }
-        },
-
-        // The concatenate task is used here to merge the almond require/define
-        // shim and the templates into the application code.  It's named
-        // dist/debug/require.js, because we want to only load one script file in
-        // index.html.
-        concat:{
-            dist:{
-                src:[
-                    "assets/js/libs/almond.js",
-                    "dist/debug/require.js",
-                    "dist/debug/templates.js"
-                ],
-
-                dest:"dist/debug/require.js",
-
-                separator:";"
-            }
-        },
-
-        // This task uses the MinCSS Node.js project to take all your CSS files in
-        // order and concatenate them into a single CSS file named index.css.  It
-        // also minifies all the CSS as well.  This is named index.css, because we
-        // only want to load one stylesheet in index.html.
-        mincss:{
-            "dist/release/index.css":[
-                "assets/css/h5bp.css",
-                "assets/css/**/*.css"
-            ]
-        },
-
-        // Takes the built require.js file and minifies it for filesize benefits.
-        min:{
-            "dist/release/require.js":[
-                "dist/debug/require.js"
-            ]
-        },
-
-        // Running the server without specifying an action will run the defaults,
-        // port: 8000 and host: 127.0.0.1.  If you would like to change these
-        // defaults, simply add in the properties `port` and `host` respectively.
-        // Alternatively you can omit the port and host properties and the server
-        // task will instead default to process.env.PORT or process.env.HOST.
-        //
-        // Changing the defaults might look something like this:
-        //
-        // server: {
-        //   host: "127.0.0.1", port: 9001
-        //   debug: { ... can set host and port here too ...
-        //  }
-        //
-        //  To learn more about using the server task, please refer to the code
-        //  until documentation has been written.
-        server:{
-
-
-
-            // Ensure the favicon is mapped correctly.
-            files:{ "favicon.ico":"favicon.ico" },
-
-            debug:{
-                port:4444,
-                // Ensure the favicon is mapped correctly.
-                files:{ "favicon.ico":"favicon.ico" },
-
-                // Map `server:debug` to `debug` folders.
-                folders:{
-                    "img":"assets/img",
-                    "app":"dist/debug",
-                    "assets/js/libs":"dist/debug"
-                }
-            },
-
-            release:{
-                // This makes it easier for deploying, by defaulting to any IP.
-                host:"0.0.0.0",
-                port:80,
-
-                // Ensure the favicon is mapped correctly.
-                files:{ "favicon.ico":"favicon.ico" },
-
-                // Map `server:release` to `release` folders.
-                folders:{
-                    "app":"dist/release",
-                    "img":"assets/img",
-                    "assets/js/libs":"dist/release",
-                    "assets/css":"dist/release"
-                }
-            }
-        },
-
-        // This task uses James Burke's excellent r.js AMD build tool.  In the
-        // future other builders may be contributed as drop-in alternatives.
-        requirejs:{
-            // Include the main configuration file.
-            mainConfigFile:"app/config.js",
-
-            // Output file.
-            out:"dist/debug/require.js",
-
-            // Root application module.
-            name:"config",
-
-            // Do not wrap everything in an IIFE.
-            wrap:false
-        },
-
-
-        // The watch task monitors specified files for changes
-        // and executes a task upon change.
-        watch:{
-            debug:{
-                files:["app/**/*.js", "app/templates/**/*.hbs"],
-                tasks:"debug"
-            },
-            release:{
-                files:["app/**/*.js", "app/templates/**/*.hbs"],
-                tasks:"release"
-            }
-        },
-
-        // The headless QUnit testing environment is provided for "free" by Grunt.
-        // Simply point the configuration to your test directory.
-        qunit:{
-            all:["test/qunit/*.html"]
-        },
-
-        // The headless Jasmine testing is provided by grunt-jasmine-task. Simply
-        // point the configuration to your test directory.
-        jasmine:{
-            all:["test/jasmine/*.html"]
+        files:{
+          "dist/templates.js":["app/templates/**/*.hbs"]
         }
+      }
+    },
 
-    });
+    // The concatenate task is used here to merge the almond require/define
+    // shim and the templates into the application code.  It's named
+    // dist/debug/require.js, because we want to only load one script file in
+    // index.html.
+    concat:{
+
+      debug:{
+        src:[
+          "assets/js/libs/almond.js",
+          "dist/debug/require.js",
+          "dist/templates.js"
+        ],
+        dest:"dist/debug/require.js",
+        separator:";"
+      },
+
+      release:{
+        src:[
+          "assets/js/libs/almond.js",
+          "dist/release/app/require.js",
+          "dist/templates.js"
+        ],
+
+        dest:"dist/release/app/require.js",
+        separator:";"
+      }
+    },
+
+    // This task uses the MinCSS Node.js project to take all your CSS files in
+    // order and concatenate them into a single CSS file named index.css.  It
+    // also minifies all the CSS as well.  This is named index.css, because we
+    // only want to load one stylesheet in index.html.
+    mincss:{
+      "dist/release/css/index.css":[
+        "assets/css/h5bp.css",
+        "assets/css/**/*.css"
+      ]
+    },
+
+    // Takes the built require.js file and minifies it for filesize benefits.
+    min:{
+      "dist/release/app/require.js":[
+        "dist/release/app/require.js"
+      ]
+    },
+
+    server:{
+      release: {
+        port: 8081,
+        base: 'dist/release',
+        folders: {
+          'img' : 'dist/release/img',
+          'css' : 'dist/release/css',
+          'css/images/' : 'dist/release/css/images',
+          'app' : 'dist/release/app'
+        }
+      }
+    },
+
+    requirejs:{
+      debug:{
+        options:{
+          mainConfigFile:"app/config.js",
+          name:"config",
+          wrap:false,
+          out:"dist/debug/app/require.js"
+        }
+      },
+
+      release:{
+        options:{
+          mainConfigFile:"app/config.js",
+          name:"config",
+          wrap:false,
+          out:"dist/release/app/require.js"
+        }
+      }
+    },
 
 
-    grunt.loadTasks("tasks");
+    // The watch task monitors specified files for changes
+    // and executes a task upon change.
+    watch:{
+      debug:{
+        files:["app/**/*.js", "app/templates/**/*.hbs"],
+        tasks:"debug"
+      },
+      release:{
+        files:["app/**/*.js", "app/templates/**/*.hbs"],
+        tasks:"release"
+      }
+    },
 
-    // The debug task will remove all contents inside the dist/ folder, lint
-    // all your code, precompile all the underscore templates into
-    // dist/debug/templates.js, compile all the application code into
-    // dist/debug/require.js, and then concatenate the require/define shim
-    // almond.js and dist/debug/templates.js into the require.js file.
-    grunt.registerTask("debug", "clean lint requirejs handlebars_1 concat");
+    // The headless QUnit testing environment is provided for "free" by Grunt.
+    // Simply point the configuration to your test directory.
+    qunit:{
+      all:["test/qunit/*.html"]
+    },
 
-    // Aliases for watch-server
-    grunt.registerTask("watch-debug", "Launch debug web server and watch files for changes", function () {
-        grunt.task.run("debug");
-        var done = this.async();
-        grunt.task.run("watch:debug");
-        done();
-        grunt.task.run("server:debug");
-        done();
-    });
+    // The headless Jasmine testing is provided by grunt-jasmine-task. Simply
+    // point the configuration to your test directory.
+    jasmine:{
+      all:["test/jasmine/*.html"]
+    },
 
+    copy:{
+      release:{
+        files:{
+          "dist/release/":["index.html"],
+          "dist/release/img":["assets/img/**"],
+          "dist/release/css":["assets/css/**"]
+        }
+      }
+    }
 
-    // The release task will run the debug tasks and then minify the
-    // dist/debug/require.js file and CSS files.
-    grunt.registerTask("release", "debug min mincss");
+  });
+
+  grunt.registerTask("debug", "clean lint requirejs:debug handlebars concat:debug");
+
+  grunt.registerTask("release", "clean lint requirejs:release handlebars min concat:release mincss copy:release");
+
+  // Aliases for watch-server
+  grunt.registerTask("watch-debug", "Launch debug web server and watch files for changes", function () {
+    grunt.task.run("debug");
+    var done = this.async();
+    grunt.task.run("watch:debug");
+    done();
+    grunt.task.run("server:debug");
+    done();
+  });
+
 
 };
