@@ -3,8 +3,9 @@ define([
   "models/backend",
   "models/applications",
   "views/applications",
-  "plugins/backbone.marionette"
-], function (app, Backend, ApplicationModel, ApplicationsView, Marionette) {
+  "plugins/backbone.marionette",
+  "underscore"
+], function (app, Backend, ApplicationModel, ApplicationsView, Marionette, _) {
   var view = Marionette.ItemView.extend({
     template:"applications_upper_context",
 
@@ -18,6 +19,13 @@ define([
         backends.push({title: title, server: app.config.backends[title]});
       }
       return {backends: backends};
+    },
+
+    onShow: function() {
+      var current_backend_title = _.keys(app.config.backends)[0];
+      debug("current backend title: ", current_backend_title);
+      $("#current_backend").text(current_backend_title);
+
     },
 
     events:{
