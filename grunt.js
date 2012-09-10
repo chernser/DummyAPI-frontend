@@ -43,10 +43,10 @@ module.exports = function (grunt) {
       debug:{
         src:[
           "assets/js/libs/almond.js",
-          "dist/debug/require.js",
+          "dist/debug/app/require.js",
           "dist/templates.js"
         ],
-        dest:"dist/debug/require.js",
+        dest:"dist/debug/app/require.js",
         separator:";"
       },
 
@@ -81,8 +81,22 @@ module.exports = function (grunt) {
     },
 
     server:{
+      debug: {
+        port: 8080,
+        base: 'dist/debug',
+        folders: {
+          'img' : 'assets/img',
+          'css' : 'assets/css',
+          'css/images/' : 'assets/css/images',
+          'app' : 'dist/debug/app'
+        }
+      },
+
+
       release: {
-        port: 8081,
+        port: 8080,
+        ip_address: "0.0.0.0",
+
         base: 'dist/release',
         folders: {
           'img' : 'dist/release/img',
@@ -99,7 +113,8 @@ module.exports = function (grunt) {
           mainConfigFile:"app/config.js",
           name:"config",
           wrap:false,
-          out:"dist/debug/app/require.js"
+          out:"dist/debug/app/require.js",
+          optimize: "none"
         }
       },
 
@@ -153,17 +168,16 @@ module.exports = function (grunt) {
 
   grunt.registerTask("debug", "clean lint requirejs:debug handlebars concat:debug");
 
-  grunt.registerTask("release", "clean lint requirejs:release handlebars min concat:release mincss copy:release");
+  grunt.registerTask("release", "clean lint requirejs:release handlebars concat:release min mincss copy:release");
 
-  // Aliases for watch-server
-  grunt.registerTask("watch-debug", "Launch debug web server and watch files for changes", function () {
+
+  //TODO: make server task work with grunt-contrib
+/*  grunt.registerTask("watch-debug", "Launch debug web server and watch files for changes", function () {
     grunt.task.run("debug");
     var done = this.async();
     grunt.task.run("watch:debug");
     done();
     grunt.task.run("server:debug");
     done();
-  });
-
-
+  });*/
 };

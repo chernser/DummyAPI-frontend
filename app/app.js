@@ -20,9 +20,6 @@ define([
             root:"/",
 
             getJSTTemplate:function(template, data) {
-                // Small optimization ??
-                //var templateKey = [TEMPLATE_PREFIX, template, TEMPLATE_EXT].join('');
-                //return Handlebars.templates[template](data);
                 return JST[template](data);
             }
         });
