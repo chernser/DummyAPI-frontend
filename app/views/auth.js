@@ -130,6 +130,7 @@ define([
 
     createUserBtn:function () {
       var view = this;
+      Helpers.formToModel("#user_edit_form", this.current_user);
       delete this.current_user.id;
       this.current_user.put(function (err, model) {
         view.reloadUsers();
@@ -139,6 +140,7 @@ define([
 
     saveUserBtn:function () {
       var view = this;
+      Helpers.formToModel("#user_edit_form", this.current_user);
       this.current_user.put(function (err, model) {
         view.reloadUsers();
       });

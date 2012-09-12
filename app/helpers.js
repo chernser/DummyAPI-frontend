@@ -53,8 +53,8 @@ define([
       sortname:'name',
       sortorder:'desc',
       viewrecords:false,
-      autowidth: true,
-      shrinkToFit: false
+      autowidth:true,
+      shrinkToFit:false
 
 
     };
@@ -143,7 +143,7 @@ define([
       dataType:'json',
       contentType:'application/json',
       data:data,
-      url: url,
+      url:url,
 
       success:function (result) {
         if (_.isFunction(callback)) {
@@ -158,6 +158,19 @@ define([
       }
 
     });
+  };
+
+
+  Helpers.formToModel = function (form_elem_selector, model) {
+    $(form_elem_selector + " input, select").each(function (index, item) {
+      var $item = $(item);
+      var field = $item.attr("field");
+
+      if (!_.isUndefined(field)) {
+        model.set(field,$item.val());
+      }
+    });
+
   };
 
 
