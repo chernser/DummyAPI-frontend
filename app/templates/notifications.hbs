@@ -9,6 +9,7 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a data-target="#to_client_notifications" data-toggle="tab">To Client</a></li>
                 <li><a data-target="#from_client_notifications" data-toggle="tab">From Client</a></li>
+                <li><a data-target="#event_callbacks" data-toggle="tab">Callbacks</a></li>
             </ul>
             <div class="tab-content">
 
@@ -63,6 +64,7 @@
                         </div>
                 </div> <!-- tab end -->
 
+                <!-- Event log tab -->
                 <div class="tab-pane" id="from_client_notifications">
 
                     <div class="span10">
@@ -71,6 +73,26 @@
                     </div>
                 </div>
 
+                <!-- Event callbacks -->
+                <div class="tab-pane" id="event_callbacks">
+                    <div class="span12" id="callback_list">
+
+                    </div>
+
+                    <div class="form span5 well well-small">
+                        <h5>New callback</h5>
+                        <label>Event name</label>
+                        <input type="text" class="span12"/>
+                        <label>Callback function</label>
+                        <textarea id="new_callback_function_code" rows="5" cols="200" class="span12" >
+function(event_data) {
+    var response = { value: "123" };
+    return response;
+}
+                        </textarea>
+                        <button class="btn">Add</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

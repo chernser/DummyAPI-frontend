@@ -2,8 +2,10 @@ define([
   "app",
   "socket_io",
   "backbone",
-  "plugins/backbone.marionette"
-], function (app, io, Backbone, Marionette) {
+  "plugins/backbone.marionette",
+  "helpers"
+
+], function (app, io, Backbone, Marionette, Helpers) {
   var view = Marionette.ItemView.extend({
     template:"notifications",
 
@@ -40,10 +42,12 @@ define([
       });
 
       this.loadSocketIoClients();
+
+      Helpers.preventTabChangeFocus("#new_callback_function_code");
     },
 
     printEvent:function (event) {
-      $("#events_log").append(JSON.stringify(event)).append("<br/>");
+      $("#events_log").append(JSON.stringify(event)).append("<br/>\n");
 
     },
 

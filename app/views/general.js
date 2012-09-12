@@ -62,7 +62,8 @@ define([
       debug("cloning application");
       var opts = {
         name:$("#clone_name").val(),
-        clone_instances:$("#clone_instances_flag").is(":checked")
+        clone_instances:$("#clone_instances_flag").is(":checked"),
+        clone_users:$("#clone_users_flag").is(":checked")
       };
 
       debug("cloning opts: ", opts);
