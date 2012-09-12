@@ -33,8 +33,14 @@ define([
       });
     },
 
-    sendEvent:function (event_name, event_data, callback) {
-      this.doAction('send_event', {name:event_name, data:event_data}, callback);
+    sendEvent:function (event_name, event_data, client_id, callback) {
+      this.doAction('send_event', {name:event_name, data:event_data, client_id: client_id}, callback);
+    },
+
+    getSocketClients:function(callback) {
+      this.doAction('socket_clients', null, {method: 'GET'}, function(err, result) {
+         callback(err, result !== null ? result.clients : null);
+      });
     },
 
     clone:function (opts, callback) {

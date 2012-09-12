@@ -38,12 +38,26 @@ define([
         debug("event from client: ", event);
         view.printEvent(event);
       });
+
+      this.loadSocketIoClients();
     },
 
     printEvent:function (event) {
       $("#events_log").append(JSON.stringify(event)).append("<br/>");
 
+    },
 
+    loadSocketIoClients:function () {
+
+      this.model.getSocketClients(function (err, clients) {
+        debug("got socket io clients: ", clients);
+
+        var $client_list = $("#to_socket_io_client");
+        $client_list.append("<option value=''>all</option>");
+        for (var index in clients) {
+          $client_list.append("<option>" + clients[index] + "</option>");
+        }
+      });
     },
 
     events:{
@@ -67,13 +81,15 @@ define([
     onSendNotificationBtn:function () {
       var event_name = $("#event_name").val();
       var event_data = JSON.parse($("#event_data").val());
-      this.model.sendEvent(event_name, event_data, function (err, result) {
+      var client_id = $("#to_socket_io_client").val();
+      if (client_id === '') {
+        client_id = null;
+      }
+      this.model.sendEvent(event_name, event_data, client_id, function (err, result) {
         debug("notification result: ", result);
         $("#sending_result").text("Delivered to " + result.notified + " clients");
       });
     }
-
-
   });
 
 

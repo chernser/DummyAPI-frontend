@@ -128,13 +128,13 @@ define([
 
   Helpers.doHttpRequest = function (url, args, opts, callback) {
 
-    var data = '';
-    if (!_.isUndefined(args)) {
+    var data = null;
+    if (args !== null && !_.isUndefined(args)) {
       data = JSON.stringify(args);
     }
 
     var method = 'POST';
-    if (opts !== null) {
+    if (!_.isUndefined(opts) && opts !== null) {
       method = _.isUndefined(opts.method) ? method : opts.method;
     }
 
