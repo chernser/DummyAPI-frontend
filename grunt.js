@@ -134,11 +134,11 @@ module.exports = function (grunt) {
     watch:{
       debug:{
         files:["app/**/*.js", "app/templates/**/*.hbs"],
-        tasks:"debug"
+        tasks:"build-debug"
       },
       release:{
         files:["app/**/*.js", "app/templates/**/*.hbs"],
-        tasks:"release"
+        tasks:"build-release"
       }
     },
 
@@ -166,10 +166,10 @@ module.exports = function (grunt) {
 
   });
 
-  grunt.registerTask("debug", "clean lint requirejs:debug handlebars concat:debug");
 
-  grunt.registerTask("release", "clean lint requirejs:release handlebars concat:release min mincss copy:release");
+  grunt.registerTask("build-debug", "clean lint requirejs:debug handlebars concat:debug");
 
+  grunt.registerTask("build-release", "clean lint requirejs:release handlebars concat:release min mincss copy:release");
 
   //TODO: make server task work with grunt-contrib
 /*  grunt.registerTask("watch-debug", "Launch debug web server and watch files for changes", function () {

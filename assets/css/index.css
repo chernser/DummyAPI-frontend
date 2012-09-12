@@ -4,7 +4,6 @@
 @import "jquery-ui-1.8.16.custom.css";
 @import "ui.jqgrid.css";
 
-
 body {
     padding-bottom: 40px;
 }
@@ -25,7 +24,7 @@ body {
     cursor: pointer;
 }
 
-#new_object_type_name_form  {
+#new_object_type_name_form {
     white-space: nowrap;
 }
 
@@ -51,3 +50,29 @@ body {
     cursor: pointer;
 }
 
+
+.footer {
+    padding-bottom: 20px;
+}
+
+.footer p {
+    font-size: 9pt;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.footer a {
+    margin: 0px;
+    padding: 0px;
+}
+
+.link-list {
+    list-style: none;
+    left-margin: -100px;
+    left-padding: 0px;
+}
+
+.link-list li {
+    left-margin: 0px;
+    left-padding: 0px;
+}

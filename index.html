@@ -9,15 +9,22 @@
 
     <!-- Application styles. -->
     <link rel="stylesheet" href="/css/index.css">
+    <style>
+        #main {
+            padding-bottom: 200px;
+        }
+
+    </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="container-fluid">
     <!-- Header -->
     <div class="row-fluid">
         <div class="span12">
             <h1><a href="/">DummyAPI</a> on <i id="current_backend"></i></h1>
+
             <div id="upper_context"></div>
             <hr/>
         </div>
@@ -25,6 +32,37 @@
 
     <!-- Main container. -->
     <div role="main" id="main" class="row-fluid"></div>
+</div>
+
+<!-- Footer -->
+<div class="navbar navbar-fixed-bottom">
+    <div class="navbar-inner">
+        <div class="container footer">
+            <div class="span3">
+                <h6>Documentation</h6>
+
+                <p><a href="https://github.com/chernser/DummyAPI-backend/wiki">Wiki</a></p>
+
+                <p><a href="https://github.com/chernser/DummyAPI-backend/wiki">How-To</a></p>
+            </div>
+            <div class="span3">
+                <h6>Source Code</h6>
+
+                <p><a href="https://github.com/chernser/DummyAPI-backend">GitHub: Backend</a></p>
+
+                <p><a href="https://github.com/chernser/DummyAPI-frontend">GitHub: Frontend</a></p>
+
+                <p><a href="https://bitbucket.org/chernser/dummyapi-backend">Bitbucket: Backend</a></p>
+
+                <p><a href="https://bitbucket.org/chernser/dummyapi-frontend">Bitbucket: Frontend</a></p>
+            </div>
+            <div class="span3">
+                <h6>About</h6>
+                <p><b>frontend ver.</b>&nbsp;<i>0.1.3</i></p>
+                <p><b>backend ver.</b>&nbsp;<i>0.1.3</i></p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Application source. -->
