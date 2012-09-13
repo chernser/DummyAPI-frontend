@@ -1,17 +1,22 @@
 define([
   "app",
+  "models/event_callback",
+  "models/event_callbacks",
   "socket_io",
   "backbone",
   "plugins/backbone.marionette",
   "helpers"
 
-], function (app, io, Backbone, Marionette, Helpers) {
+], function (app, EventCallback, EventCallbacks, io, Backbone, Marionette, Helpers) {
   var view = Marionette.ItemView.extend({
     template:"notifications",
 
     initialize:function (attributes) {
       debug("Initialize view notifications");
       this.model = attributes.model;
+
+      this.event_callbacks = new EventCallbacks(this.model);
+      this.current_event_callback = new EventCallback({});
     },
 
     onShow:function () {
@@ -42,6 +47,7 @@ define([
       });
 
       this.loadSocketIoClients();
+      this.initCallbacksGrid();
       this.loadCallbacks();
 
       Helpers.preventTabChangeFocus("#new_callback_function_code");
@@ -65,18 +71,31 @@ define([
       });
     },
 
-    loadCallbacks: function() {
+    initCallbacksGrid:function () {
       var fields = {
-          event_name:{name:"Event Name", width: 250},
-          is_enabled:{name:"Enabled", width: 70}
+        event_name:{name:"Event Name", width:250},
+        is_enabled:{name:"Enabled", width:70}
       };
 
-      Helpers.showGrid("#event_callbacks_tbl","", fields, {datatype: 'local', autowidth: false, width: 400});
+      Helpers.showGrid("#event_callbacks_tbl", "", fields, {datatype:'local', autowidth:false, width:400});
     },
+
+    loadCallbacks:function () {
+      var view = this;
+      this.event_callbacks.load(function (err, model) {
+        var data = view.event_callbacks.toJSON();
+        Helpers.setGridData("#event_callbacks_tbl", data);
+      });
+    },
+
 
     events:{
       'click #save_proxy_function_code_btn':'onSaveProxyFunctionCodeBtn',
-      'click #send_notification_btn':'onSendNotificationBtn'
+      'click #send_notification_btn':'onSendNotificationBtn',
+
+      'click #edit_selected_callback_btn':'onEditSelectedCallbackBtn',
+      'click #remove_selected_callback_btn':'onRemoveSelectedCallbackBtn',
+      'click #add_update_event_callback_btn':'onAddUpdateEventCallbackBtn'
     },
 
     onSaveProxyFunctionCodeBtn:function () {
@@ -103,7 +122,61 @@ define([
         debug("notification result: ", result);
         $("#sending_result").text("Delivered to " + result.notified + " clients");
       });
+    },
+
+    onEditSelectedCallbackBtn:function () {
+      var selected_callback = Helpers.getSelectedRowData("#event_callbacks_tbl");
+      if (selected_callback !== null) {
+        this.current_event_callback.clear();
+        var instances = this.event_callbacks.where({event_name:selected_callback.event_name});
+        if (instances.length > 0) {
+          selected_callback = instances[0].toJSON();
+        }
+        this.current_event_callback.set(selected_callback);
+        Helpers.renderModel("#event_callback_edit_form", this.current_event_callback);
+      }
+    },
+
+    onRemoveSelectedCallbackBtn:function () {
+      var selected_callback = Helpers.getSelectedRowData("#event_callbacks_tbl");
+      if (selected_callback !== null) {
+        this.current_event_callback.clear();
+        var instances = this.event_callbacks.where({event_name:selected_callback.event_name});
+        if (instances.length > 0) {
+          selected_callback = instances[0].toJSON();
+        }
+
+        this.current_event_callback.set(selected_callback);
+
+        var view = this;
+        this.current_event_callback.remove(function (err, result) {
+          debug("Event callback remove result: ", err, result);
+          view.loadCallbacks();
+        });
+      }
+
+    },
+
+    onAddUpdateEventCallbackBtn:function () {
+      var view = this;
+
+      Helpers.formToModel("#event_callback_edit_form", this.current_event_callback);
+      this.current_event_callback.set("app_id", this.model.getId());
+
+      var event_name = this.current_event_callback.get("event_name");
+      var exists = _.isEmpty(this.event_callbacks.where({event_name:event_name}));
+      if (exists) {
+        delete this.current_event_callback._id;
+        delete this.current_event_callback.id;
+      }
+
+      debug("Saving callback: ", this.current_event_callback.toJSON());
+      this.current_event_callback.put(function (err, result) {
+        debug("save result", err, result);
+        view.loadCallbacks();
+      });
     }
+
   });
 
 

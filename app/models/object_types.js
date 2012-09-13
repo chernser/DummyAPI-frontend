@@ -1,6 +1,4 @@
 define([
-
-
     "models/backend"
 ], function(Backend) {
 

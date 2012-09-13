@@ -14,6 +14,11 @@
             padding-bottom: 200px;
         }
 
+        ._footer_on {
+            position: fixed;
+            bottom: 200px;
+        }
+
     </style>
 </head>
 
@@ -35,8 +40,10 @@
 </div>
 
 <!-- Footer -->
-<div class="navbar navbar-fixed-bottom">
+
+<div id="_footer" class="navbar navbar-fixed-bottom">
     <div class="navbar-inner">
+        <a id="toggle_footer" class="pull-right" href="#"><i class="icon icon-chevron-down"></i></a>
         <div class="container footer">
             <div class="span3">
                 <h6>Documentation</h6>
@@ -61,11 +68,39 @@
                 <p><b>frontend ver.</b>&nbsp;<i>p0.1.2</i></p>
                 <p><b>backend ver.</b>&nbsp;<i id="_backend_version">???</i></p>
             </div>
+
         </div>
     </div>
 </div>
 
 <!-- Application source. -->
 <script data-main="/app/config" src="/app/require.js"></script>
+<script type="text/javascript">
+    (function() {
+        var show_footer = true;
+
+        $("#toggle_footer").click(function(e) {
+            debug("toggle footer");
+
+            if (show_footer === true)  {
+                $("#_footer").animate({bottom: -120}, function() {
+                    show_footer = false;
+                    $("#toggle_footer i").removeClass("icon-chevron-down").addClass("icon-chevron-up");
+                });
+            } else {
+                $("#_footer").animate({bottom: 0}, function() {
+                    show_footer = true;
+
+                    $("#toggle_footer i").removeClass("icon-chevron-up").addClass("icon-chevron-down");
+                });
+
+            }
+
+            e.preventDefault();
+            return false;
+        });
+    }());
+
+</script>
 </body>
 </html>

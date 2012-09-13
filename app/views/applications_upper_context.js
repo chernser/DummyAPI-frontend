@@ -23,7 +23,7 @@ define([
     },
 
     onShow: function() {
-      app.loadBackendInfo();
+      app.updateBackendInfo();
     },
 
 
@@ -41,7 +41,7 @@ define([
       app.config.backend = backend_server;
       this.applications_view.reload();
 
-      app.loadBackendInfo();
+      app.updateBackendInfo();
     }
 
   });

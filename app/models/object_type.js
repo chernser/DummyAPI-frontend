@@ -28,7 +28,6 @@ define([
         },
 
         resourceUrl:function () {
-            debug("application id: ", this.getId(), this);
             return 'app/' + this.app_id + '/object_type/' + this.getId();
         }
     });

@@ -86,9 +86,15 @@ define([
   };
 
   Helpers.renderModel = function (container_id, model) {
+    var $form = $(container_id);
     for (var attr in model.attributes) {
-      var selector = [container_id, " [field='", attr, "']"].join('');
-      $(selector).val(model.get(attr));
+      var selector = [" [field='", attr, "']"].join('');
+      var control = $form.find(selector);
+      if (control.attr("type") == "checkbox") {
+        control.prop("checked", model.get(attr));
+      } else {
+        control.val(model.get(attr));
+      }
     }
   };
 
@@ -160,12 +166,16 @@ define([
 
 
   Helpers.formToModel = function (form_elem_selector, model) {
-    $(form_elem_selector + " input, select").each(function (index, item) {
+    $(form_elem_selector + " [field]").each(function (index, item) {
       var $item = $(item);
       var field = $item.attr("field");
 
       if (!_.isUndefined(field)) {
-        model.set(field,$item.val());
+        if ($item.attr("type") == "checkbox") {
+          model.set(field,$item.is(":checked"));
+        } else {
+          model.set(field,$item.val());
+        }
       }
     });
 

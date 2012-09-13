@@ -25,7 +25,7 @@
                                     {{notify_proxy_fun}}
                                     {{else}}
 function proxy(event, data) {
-return notification;
+    return notification;
 }
                                     {{/if}}
                                 </textarea>
@@ -52,9 +52,10 @@ return notification;
                         </div>
                         <div class="control-group">
                             <label>Event data</label>
-
+                               <![CDATA[asdfsad]]>
                             <div class="controls">
                                 <textarea id="event_data" rows="8" cols="100" style="width: 350px">
+
 {
 "value": 123
 }
@@ -82,38 +83,43 @@ return notification;
                         <div class="span10">
                             <table id="event_callbacks_tbl" style="width: 700px;"></table>
                             <div class="btn-group">
-                                <button class="btn"><i class="icon icon-edit"></i></button>
-                                <button class="btn"><i class="icon icon-minus"></i></button>
+                                <button id="edit_selected_callback_btn" class="btn"><i class="icon icon-edit"></i>
+                                </button>
+                                <button id="remove_selected_callback_btn" class="btn"><i class="icon icon-minus"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row-fluid" style="margin-top: 15px;">
+                    <div id="event_callback_edit_form">
+                        <div class="row-fluid" style="margin-top: 15px;">
 
-                        <div class="form span5">
-                            <div class="">
-                                <label>Event name</label>
-                                <input type="text" />
-                                <label class="checkbox pull-right">
-                                    <input type="checkbox"/>
-                                    Enabled
-                                </label>
+                            <div class="form span5">
+                                <div class="">
+                                    <label>Event name</label>
+                                    <input field="event_name" type="text"/>
+                                    <label class="checkbox pull-right">
+                                        <input field="is_enabled" type="checkbox"/>
+                                        Enabled
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="form span5">
-                            <label>Callback function</label>
-                            <textarea id="new_callback_function_code" rows="7" cols="100" class="span12">
-function(event_data) {
-var response = { value: "123" };
-return response;
-}
-                            </textarea>
-                            <button class="btn">Add/Update</button>
+                        <div class="row-fluid">
+                            <div class="form span5">
+                                <label>Callback function</label>
+                                <textarea field="code" id="new_callback_function_code" rows="7" cols="100"
+                                          class="span12">
+                                    function event_callback(event_data) {
+                                    var response = { value: "123" };
+                                    return response;
+                                    }
+                                </textarea>
+                                <button id="add_update_event_callback_btn" class="btn">Add/Update</button>
+                            </div>
+
+
                         </div>
-
-
                     </div>
                 </div>
 
