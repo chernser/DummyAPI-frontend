@@ -1,12 +1,11 @@
 {
     "name":"DummyAPI-frontend",
-    "version":"p0.1.2",
+    "version":"0.1.2b",
     "private":true,
     "description":"WebUI client for DummyAPI-backend",
     "engines":{
         "node":">= 0.8.0"
     },
-    "main":"grunt.js",
 
     "dependencies":{
         "requirejs":"*",
@@ -28,6 +27,6 @@
         "socket.io-client":"~0.9.10"
     },
     "devDependencies":{
-        "bbb":"~0.1.10"
+        "bbb":"~0.1.10"	
     }
 }
