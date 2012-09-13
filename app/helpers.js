@@ -55,8 +55,6 @@ define([
       viewrecords:false,
       autowidth:true,
       shrinkToFit:false
-
-
     };
 
     return options;

@@ -1,6 +1,6 @@
 {
     "name":"DummyAPI-frontend",
-    "version":"0.1.0",
+    "version":"p0.1.2",
     "private":true,
     "description":"WebUI client for DummyAPI-backend",
     "engines":{

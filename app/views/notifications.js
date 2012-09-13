@@ -42,6 +42,7 @@ define([
       });
 
       this.loadSocketIoClients();
+      this.loadCallbacks();
 
       Helpers.preventTabChangeFocus("#new_callback_function_code");
     },
@@ -62,6 +63,15 @@ define([
           $client_list.append("<option>" + clients[index] + "</option>");
         }
       });
+    },
+
+    loadCallbacks: function() {
+      var fields = {
+          event_name:{name:"Event Name", width: 250},
+          is_enabled:{name:"Enabled", width: 70}
+      };
+
+      Helpers.showGrid("#event_callbacks_tbl","", fields, {datatype: 'local', autowidth: false, width: 400});
     },
 
     events:{
