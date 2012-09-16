@@ -1,8 +1,9 @@
-@import "h5bp.css";
+/*@import "h5bp.css";*/
 @import "bootstrap.css";
 @import "bootstrap-responsive.css";
 @import "jquery-ui-1.8.16.custom.css";
 @import "ui.jqgrid.css";
+@import "index-responsive.css";
 
 body {
     padding-bottom: 40px;
@@ -50,7 +51,6 @@ body {
     cursor: pointer;
 }
 
-
 .footer {
     padding-bottom: 20px;
 }
@@ -76,3 +76,19 @@ body {
     left-margin: 0px;
     left-padding: 0px;
 }
+
+#docs_methods .accordion-toggle {
+    font-size: 14pt;
+}
+
+.inline-label {
+    display: inline-block;
+    padding-top: 5px;
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+
+.form-horizontal {
+    padding: 30px;
+}
+

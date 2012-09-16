@@ -1,0 +1,7 @@
+
+
+@media (max-with: 300px) {
+    #docs_methods .accordion-toggle {
+        font-size: 7pt;
+    }
+}

@@ -1,0 +1,182 @@
+<div class="span12">
+    <div class="row-fluid">
+        <h3>Application Documentation </h3>
+    </div>
+
+    <div class="row-fluid">
+        <div id="auth_tabs" class="span12 tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-target="#api_docs_tab" data-toggle="tab">API</a></li>
+
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="api_docs_tab">
+
+
+                    <!-- Resources list -->
+                    <div class="span2">
+                        <ul id="object_types_nav_list" class="nav nav-list"
+                            style="min-height: 312px; max-height: 312px; overflow-y: scroll; border: dashed 1px #d3d3d3; overflow: auto;">
+                            <li>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                    <!-- Resource documentation -->
+                    <div class="span10">
+
+                        <!-- Method documentation -->
+                        <div class="accordion" id="docs_methods">
+
+                            <div class="accordion-group">
+                                <div class="accordion-heading">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#docs_methods"
+                                       data-target="#collapsePOST">
+                                        POST /Resource/ HTTP 1.1
+                                        <i>&nbsp;&ndash;&nbsp;Create "Resource" instance</i>
+                                    </a>
+
+                                </div>
+                                <div id="collapsePOST" class="accordion-body collapse in">
+                                    <div class="accordion-inner">
+
+                                        <div class="form-horizontal">
+
+                                            <div class="control-group">
+                                                <label class="control-label">Title</label>
+
+                                                <div class="controls">
+                                                    <input type="text" class="input-xlarge"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <label class="control-label">Returns</label>
+                                                <div class="controls controls-row">
+                                                    <label class="checkbox inline">
+                                                        <input type="checkbox"/>
+                                                        400
+                                                    </label>
+
+
+                                                    <label class="checkbox inline">
+                                                        <input type="checkbox"/>
+                                                        409
+                                                    </label>
+                                                    <label class="checkbox inline">
+                                                        <input type="checkbox"/>
+                                                        202
+                                                    </label>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="control-group">
+                                                <label class="control-label">Expected payload</label>
+
+                                                <div class="controls">
+                                                    <textarea class="input-xlarge" rows="5" cols="80"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label">Result payload</label>
+
+                                                <div class="controls">
+                                                    <textarea class="input-xlarge" rows="5" cols="80"></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="span10">
+                                            <h5 class="span12" style="text-align: center;">Status code description</h5>
+                                            <table class="table">
+                                                <tr>
+                                                    <td>400&nbsp;(Invalid)</td>
+                                                    <td>Invalid argument</td>
+                                                    <td><i class="icon icon-remove"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><select>
+                                                        <option>200&nbsp;(OK)</option>
+                                                    </select></td>
+                                                    <td><textarea class="input-xxlarge" rows="5" cols="80"></textarea>
+                                                    </td>
+                                                    <td><i class="icon icon-ok"></i></td>
+                                                </tr>
+                                            </table>
+
+                                            <div class="form-actions">
+
+                                                <button class="btn">Save</button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-group">
+                                <div class="accordion-heading">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#docs_methods"
+                                       data-target="#collapseGET">
+                                        GET /Resource/{id} HTTP 1.1
+                                        <i>&nbsp;&ndash;&nbsp; Get "Resource" instance by {id}</i>
+                                    </a>
+                                </div>
+                                <div id="collapseGET" class="accordion-body collapse in">
+                                    <div class="accordion-inner">
+                                        Anim pariatur cliche...
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-group">
+                                <div class="accordion-heading">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#docs_methods"
+                                       data-target="#collapsePUT">
+                                        PUT /Resource/{id} HTTP 1.1
+                                        <i>&nbsp;&ndash;&nbsp;Update "Resource" instance with {id}</i>
+                                    </a>
+                                </div>
+                                <div id="collapsePUT" class="accordion-body collapse in">
+                                    <div class="accordion-inner">
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="accordion-group">
+                                <div class="accordion-heading">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#docs_methods"
+                                       data-target="#collapseDELETE">
+                                        DELETE /Resource/{id} HTTP 1.1
+                                        <i>&nbsp;&ndash;&nbsp;Remove "Resource" instance by {id}</i>
+                                    </a>
+                                </div>
+                                <div id="collapseDELETE" class="accordion-body collapse in">
+                                    <div class="accordion-inner">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <!-- End of Tab -->
+
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -81,8 +81,11 @@ module.exports = function (grunt) {
     },
 
     server:{
+
       debug: {
         port: 8080,
+        host: "0.0.0.0",
+
         base: 'dist/debug',
         folders: {
           'img' : 'assets/img',
@@ -95,7 +98,7 @@ module.exports = function (grunt) {
 
       release: {
         port: 8080,
-        ip_address: "0.0.0.0",
+        host: "0.0.0.0",
 
         base: 'dist/release',
         folders: {
