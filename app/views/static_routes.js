@@ -32,8 +32,10 @@ define([
       }
 
       this.initRoutesTable();
-      this.loadStaticRoutes();
+    },
 
+    onRender: function() {
+      this.loadStaticRoutes();
       Helpers.renderModel("#static_route_edit_form", this.current_static_route);
     },
 
@@ -44,7 +46,7 @@ define([
         "id_fun_code": {name: "Id Function"}
       };
 
-      Helpers.showGrid('#static_routes_tbl', null, fields, {dataType: 'local'});
+      Helpers.showGrid('#static_routes_tbl', null, fields, {datatype: 'local'});
     },
 
     loadStaticRoutes:function () {
@@ -62,15 +64,45 @@ define([
     },
 
     onEditSelectedStaticRouteBtn:function () {
+      var selected_route = Helpers.getSelectedRowData('#static_routes_tbl');
+      if (selected_route !== null) {
+        selected_route = this.static_routes.where({route: selected_route.route});
+        this.current_static_route.clear();
+        this.current_static_route.set(selected_route[0]);
 
+        debug("current_route: ", this.current_static_route.toJSON());
+        Helpers.renderModel("#static_route_edit_form", this.current_static_route);
+      }
     },
 
     onRemoveSelectedStaticRouteBtn:function () {
-
+      var view = this;
+      var selected_route = Helpers.getSelectedRowData('#static_routes_tbl');
+      if (selected_route !== null) {
+        selected_route = this.static_routes.where({route: selected_route.route});
+        this.current_static_route.clear();
+        this.current_static_route.set(selected_route[0]);
+        debug("removing: ", this.current_static_route.toJSON());
+        this.current_static_route.remove(function(err, result) {
+          view.loadStaticRoutes();
+        });
+      }
     },
 
     onAddUpdateStaticRouteBtn:function () {
-
+      var view = this;
+      this.current_static_route.set("app_id", this.model.getId());
+      Helpers.formToModel('#static_route_edit_form', this.current_static_route);
+      var is_new = _.isEmpty(this.static_routes.where({route: this.current_static_route.get("route")}));
+      if (is_new === true) {
+        delete this.current_static_route.id;
+        delete this.current_static_route._id;
+      }
+      debug("saving static route: ", is_new, this.current_static_route);
+      this.current_static_route.put(function(err, result) {
+        debug("save result", err, result);
+        view.loadStaticRoutes();
+      });
     }
 
   });

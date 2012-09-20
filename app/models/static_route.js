@@ -3,7 +3,7 @@ define([
 ], function(Backend) {
 
   var model = Backend.Model.extend({
-
+    idAttribute:'_id',
     defaults:{
       route: '',
       resource: '',
@@ -14,8 +14,8 @@ define([
       this.attributes = attributes;
     },
 
-    url:function() {
-      return 'app/' + this.get("app_id") + '/static_route/' + this.getId();
+    resourceUrl:function() {
+      return 'app/' + this.get("app_id") + '/static_route' + (this.isNew() ? '' : this.get("route"));
     }
 
   });
