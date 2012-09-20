@@ -164,8 +164,8 @@ define([
       this.current_event_callback.set("app_id", this.model.getId());
 
       var event_name = this.current_event_callback.get("event_name");
-      var exists = _.isEmpty(this.event_callbacks.where({event_name:event_name}));
-      if (exists) {
+      var is_new = _.isEmpty(this.event_callbacks.where({event_name:event_name}));
+      if (is_new === true) {
         delete this.current_event_callback._id;
         delete this.current_event_callback.id;
       }
