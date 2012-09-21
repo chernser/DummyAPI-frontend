@@ -46,6 +46,9 @@ define([
         var version = 'unknown';
         if (err === null && response.version !== null) {
           version = response.version;
+          $("#backend_status_bulb").removeClass('off');
+        } else {
+          $("#backend_status_bulb").addClass('off');
         }
 
         $("#_backend_version").text(version);

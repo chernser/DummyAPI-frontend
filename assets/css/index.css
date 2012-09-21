@@ -76,3 +76,17 @@ body {
     left-margin: 0px;
     left-padding: 0px;
 }
+
+
+
+.light {
+    height: 32px;
+    width: 32px;
+    display: inline-block;
+    vertical-align: top;
+    background-image: url('/img/lightbulb-icon.png');
+}
+
+.light.off {
+    background-image: url('/img/lightbulb-off-icon.png');
+}
