@@ -77,6 +77,7 @@ define([
         };
 
         fields[id_field] = {name: id_field};
+        $("#object_type_id_field").html("");
         $("#object_type_id_field").append("<option>" + id_field + "</option>");
         for (var index in data) {
           var item = data[index];
