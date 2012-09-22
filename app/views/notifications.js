@@ -5,9 +5,10 @@ define([
   "socket_io",
   "backbone",
   "plugins/backbone.marionette",
-  "helpers"
+  "helpers",
+  "app_docs"
 
-], function (app, EventCallback, EventCallbacks, io, Backbone, Marionette, Helpers) {
+], function (app, EventCallback, EventCallbacks, io, Backbone, Marionette, Helpers, AppDocs) {
   var view = Marionette.ItemView.extend({
     template:"notifications",
 
@@ -16,7 +17,7 @@ define([
       this.model = attributes.model;
 
       this.event_callbacks = new EventCallbacks(this.model);
-      this.current_event_callback = new EventCallback({});
+      this.current_event_callback = new EventCallback();
     },
 
     onShow:function () {
@@ -51,6 +52,11 @@ define([
       this.loadCallbacks();
 
       Helpers.preventTabChangeFocus("#new_callback_function_code");
+      Helpers.renderModel("#event_callback_edit_form", this.current_event_callback);
+    },
+
+    onRender: function() {
+      AppDocs.init(this.$el);
     },
 
     printEvent:function (event) {

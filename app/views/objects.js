@@ -9,9 +9,10 @@ define([
   "plugins/backbone.marionette",
   "underscore",
 
-  "helpers"
+  "helpers",
+  "app_docs"
 
-], function (ObjectType, ObjectTypes, ObjectInstance, Objects, Backbone, Marionette, _, Helpers) {
+], function (ObjectType, ObjectTypes, ObjectInstance, Objects, Backbone, Marionette, _, Helpers, AppDocs) {
 
 
   var view = Marionette.ItemView.extend({
@@ -109,9 +110,12 @@ define([
 
       Helpers.preventTabChangeFocus("#proxy_function_code");
       Helpers.preventTabChangeFocus("#object_instance_json");
+
+
     },
 
     onRender:function () {
+      AppDocs.init(this.$el);
       var view = this;
       this.loadObjectTypes(function (err, model) {
         if (_.isUndefined(view.model.get("name")) || _.isEmpty(view.model.get("name"))) {

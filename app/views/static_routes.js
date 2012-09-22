@@ -6,8 +6,9 @@ define([
   "plugins/backbone.marionette",
   "helpers",
   "jquery",
-  "underscore"
-], function (StaticRoutes, StaticRoute, Marionette, Helpers, $, _) {
+  "underscore",
+  "app_docs"
+], function (StaticRoutes, StaticRoute, Marionette, Helpers, $, _, AppDocs) {
 
   var view = Marionette.ItemView.extend({
     template:"static_routes",
@@ -37,6 +38,7 @@ define([
 
     onRender: function() {
       this.loadStaticRoutes();
+      AppDocs.init(this.$el);
     },
 
     initRoutesTable:function () {

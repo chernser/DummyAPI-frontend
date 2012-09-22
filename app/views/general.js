@@ -2,9 +2,10 @@ define([
 
   "helpers",
   "backbone",
-  "plugins/backbone.marionette"
+  "plugins/backbone.marionette",
 
-], function (Helpers, Backbone, Marionette) {
+  "app_docs"
+], function (Helpers, Backbone, Marionette, AppDocs) {
 
   var view = Marionette.ItemView.extend({
     template:"general",
@@ -23,6 +24,10 @@ define([
     onShow:function () {
       $("#confirmation_code").text(Helpers.generateCode());
       $("#clone_name").val(this.model.get("name") + "_clone_" + (new Date().getTime()));
+      AppDocs.init();
+    },
+
+    onRender: function() {
     },
 
     events:{

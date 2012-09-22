@@ -11,9 +11,11 @@ define([
   "jquery",
   "jqgrid",
 
-  "helpers"
+  "helpers",
+  "app_docs"
 
-], function (User, Users, UserGroup, UserGroups, Backbone, Marionette, $, Grid, Helpers) {
+
+], function (User, Users, UserGroup, UserGroups, Backbone, Marionette, $, Grid, Helpers, AppDocs) {
 
   // Init slick plugin
   var view = Marionette.ItemView.extend({
@@ -54,6 +56,10 @@ define([
 
       this.reloadUserGroups();
       this.renderCurrentUserGroup();
+    },
+
+    onRender:function () {
+      AppDocs.init(this.$el);
     },
 
     initUsersTable:function () {

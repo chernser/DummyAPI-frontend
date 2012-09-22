@@ -6,7 +6,11 @@ define([
 
 ], function (app, _, Backend) {
 
-  var DEFAULT_CODE = 'function event_callback(context) {\n   return {event_name: "vent",\n event_data: {\n v: 1\n}}; \n}';
+  var DEFAULT_CODE = 'function event_callback(context) {\n' +
+  '    return {event_name: "vent",\n' +
+  '            event_data: "hello"\n' +
+  '           };\n}';
+
   var model = Backend.Model.extend({
     idAttribute:'_id',
 
@@ -15,7 +19,7 @@ define([
     },
 
     initialize:function (attributes) {
-      this.attributes = attributes;
+
     },
 
     resourceUrl:function () {
