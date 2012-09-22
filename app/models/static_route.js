@@ -7,11 +7,11 @@ define([
     defaults:{
       route: '',
       resource: '',
-      id_fun_code: 'function id_fun(req) { \n    return {id: 1, id_field: "id"\n}'
+      id_fun_code: 'function id_fun(req) { \n    return {id: 1, id_field: "id"};\n}'
     },
 
     initialize: function(attributes) {
-      this.attributes = attributes;
+      this.attributes = this.defaults;
     },
 
     resourceUrl:function() {

@@ -87,7 +87,8 @@ define([
 
   Helpers.renderModel = function (container_id, model) {
     var $form = $(container_id);
-    for (var attr in model.attributes) {
+    var object = model.toJSON();
+    for (var attr in object) {
       var selector = [" [field='", attr, "']"].join('');
       var control = $form.find(selector);
       if (control.attr("type") == "checkbox") {

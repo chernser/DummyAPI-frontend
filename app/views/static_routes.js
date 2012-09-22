@@ -32,11 +32,11 @@ define([
       }
 
       this.initRoutesTable();
+      Helpers.renderModel("#static_route_edit_form", this.current_static_route);
     },
 
     onRender: function() {
       this.loadStaticRoutes();
-      Helpers.renderModel("#static_route_edit_form", this.current_static_route);
     },
 
     initRoutesTable:function () {
