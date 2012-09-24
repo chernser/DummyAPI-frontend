@@ -21,13 +21,7 @@
 
                             <div class="controls">
                                 <textarea id="proxy_function_code" rows="8" cols="100" style="width: 350px;">
-                                    {{#if notify_proxy_fun}}
                                     {{notify_proxy_fun}}
-                                    {{else}}
-function proxy(event, data) {
-    return notification;
-}
-                                    {{/if}}
                                 </textarea>
                                 <button id="proxy_function_help_btn">?</button>
                             </div>
@@ -52,13 +46,8 @@ function proxy(event, data) {
                         </div>
                         <div class="control-group">
                             <label>Event data</label>
-                               <![CDATA[asdfsad]]>
                             <div class="controls">
                                 <textarea id="event_data" rows="8" cols="100" style="width: 350px">
-
-{
-"value": 123
-}
                                 </textarea>
                             </div>
                         </div>
@@ -108,9 +97,13 @@ function proxy(event, data) {
                         <div class="row-fluid">
                             <div class="form span5">
                                 <label>Callback function</label>
+                                <div class="controls">
                                 <textarea field="code" id="new_callback_function_code" rows="7" cols="100"
                                           class="span12">
+
                                 </textarea>
+                                <button class="pull-right" id="callback_function_help_btn">?</button>
+                                </div>
                                 <button id="add_update_event_callback_btn" class="btn">Add/Update</button>
                             </div>
 

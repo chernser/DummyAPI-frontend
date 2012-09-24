@@ -22,13 +22,28 @@ define([
 
     onShow:function () {
       var options = {
-        title:"Proxy function help",
-        content:"This function should return object with fields 'name', 'type', 'data'" +
-          "By default 'event' passed to function has correct 'name', 'type' fields" +
-          "If message should be sent instead event, set event.type = 'msg'",
+        title:"Proxy function",
+        content:"<b>event</b> - event object with&nbsp;'name',&nbsp;'type',&nbsp;'data'&nbsp;fields<br>" +
+        "<b>data</b> - event data<br><br>" +
+        "<b>Returns</b>: <br>event object with 'data' field and fields above",
         trigger:"click"
       };
       $("#proxy_function_help_btn").popover(options);
+
+      $("#event_data").val('{\n    "value": 123\n}\n');
+
+      if (!this.model.has("notify_proxy_fun") || _.isEmpty(this.model.get("notify_proxy_fun"))) {
+        var default_proxy_code = "function proxy(event, data) {\n    event.data = data;\n   return event;\n}";
+        $("#proxy_function_code").val(default_proxy_code);
+      }
+
+      var callback_function_help_popover_options = {
+        title:"Callback function",
+        content: "",
+        trigger:"click"
+      };
+
+      $("#callback_function_help_btn").popover(callback_function_help_popover_options);
 
       var view = this;
 
@@ -55,7 +70,7 @@ define([
       Helpers.renderModel("#event_callback_edit_form", this.current_event_callback);
     },
 
-    onRender: function() {
+    onRender:function () {
       AppDocs.init(this.$el);
     },
 
