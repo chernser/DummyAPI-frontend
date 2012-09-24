@@ -229,8 +229,8 @@ define([
         var proxy_fun = eval(code);
         var result = proxy({value:123});
         debug("Proxy function self test", result);
-        if (result.value != 123) {
-          throw "invalid self-test result";
+        if (_.isUndefined(result)) {
+          throw "invalid self-test result: function should return something";
         }
 
         this.model.set("proxy_fun_code", code);
