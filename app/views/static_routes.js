@@ -44,11 +44,10 @@ define([
     initRoutesTable:function () {
       var fields = {
         "route" : {name: "Route"},
-        "resource" : {name: "Resource"},
-        "id_fun_code": {name: "Id Function"}
+        "resource" : {name: "Resource"}
       };
 
-      Helpers.showGrid('#static_routes_tbl', null, fields, {datatype: 'local'});
+      Helpers.showGrid('#static_routes_tbl', null, fields, {datatype: 'local', width: 300});
     },
 
     loadStaticRoutes:function () {

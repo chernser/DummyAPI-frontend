@@ -303,6 +303,7 @@ define([
 
     onSaveObjectInstanceBtn:function () {
       var view = this;
+      $("#object_instance_json_error").text("");
       try {
         var instance = JSON.parse($("#object_instance_json").val());
         this.cur_obj_inst.clear();
@@ -329,6 +330,8 @@ define([
       this.model.set("id_field", id_field);
       this.model.put(function (err, model) {
         debug("Object type save result: ", model);
+
+        Helpers.setGridColumnPosition("#object_instances_tbl", id_field, 0);
       });
     },
 
