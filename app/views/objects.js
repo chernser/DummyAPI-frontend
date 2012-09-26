@@ -177,8 +177,8 @@ define([
       'change #object_type_id_field':'onIdFieldChange',
       'click #save_object_type_route_pattern_btn':'onSaveObjectTypeRoutePatternBtn',
       'keypress #new_object_type_name':'onKeyPressedOnNewObjectTypeNameInput',
-      'click #remove_all_instances_btn':'onRemoveAllInstancesBtn'
-
+      'click #remove_all_instances_btn':'onRemoveAllInstancesBtn',
+      'click #save_decode_function_code_btn':'onSaveDecodeFunctionCodeBtn'
     },
 
     onAddObjectTypeBtn:function () {
@@ -244,6 +244,34 @@ define([
         proxy = null; // clean
       }
     },
+
+    onSaveDecodeFunctionCodeBtn: function() {
+      var code = $("#decode_function_code").val();
+
+      $("#decode_function_code_error").text("");
+      var decode = null; // guard global scope
+      try {
+
+        eval(code);
+        var result = decode({value:123});
+        debug("Decode function self test", result);
+        if (_.isUndefined(result)) {
+          throw "invalid self-test result: function should return something";
+        }
+
+        this.model.set("decode_fun_code", code);
+        this.model.put(function (err, model) {
+          debug("Decode function code saved");
+        });
+      } catch (E) {
+        debug("Error in decode code: ", E);
+        $("#decode_function_code_error").text(E);
+      } finally {
+        proxy = null; // clean
+      }
+
+    },
+
 
     onCreateNewObjectInstanceBtn:function () {
       var view = this;
