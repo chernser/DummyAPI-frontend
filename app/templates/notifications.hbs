@@ -32,26 +32,37 @@
 
                     </div>
 
-                    <div class="form">
+                    <div id="send_notification_form" class="form">
                         <legend>Sending Notifications</legend>
                         <label>To client(s)</label>
                         <select id="to_socket_io_client"></select>
 
                         <div class="control-group">
+                            <label class="control-label">Event Template</label>
+                            <div class="controls">
+                                <select id="event_template_select">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
                             <label>Event name</label>
 
                             <div class="controls">
-                                <input id="event_name" type="text" value="event:test"/>
+                                <input field="event_name" id="event_name" type="text" value="event:test"/>
                             </div>
                         </div>
                         <div class="control-group">
                             <label>Event data</label>
                             <div class="controls">
-                                <textarea id="event_data" rows="8" cols="100" style="width: 350px">
+                                <textarea field="event_data" id="event_data" rows="8" cols="100" style="width: 350px">
                                 </textarea>
                             </div>
                         </div>
-                        <button id="send_notification_btn" class="btn">Send</button>
+
+                        <button id="send_notification_btn" class="btn btn-primary">Send</button>
+                        &nbsp;
+                        <button id="save_as_template_btn" class="btn">Save</button>
+                        <button id="remove_from_templates_btn" class="btn">Forget</button>
                         <i id="sending_result"></i>
                     </div>
                 </div>

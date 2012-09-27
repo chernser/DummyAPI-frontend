@@ -2,13 +2,16 @@ define([
   "app",
   "models/event_callback",
   "models/event_callbacks",
+  "models/event_template",
+  "models/event_templates",
   "socket_io",
   "backbone",
   "plugins/backbone.marionette",
   "helpers",
   "app_docs"
 
-], function (app, EventCallback, EventCallbacks, io, Backbone, Marionette, Helpers, AppDocs) {
+], function (app, EventCallback, EventCallbacks, EventTemplate, EventTemplates, io, Backbone, Marionette, Helpers,
+             AppDocs) {
   var view = Marionette.ItemView.extend({
     template:"notifications",
 
@@ -18,6 +21,8 @@ define([
 
       this.event_callbacks = new EventCallbacks(this.model);
       this.current_event_callback = new EventCallback();
+      this.event_templates = new EventTemplates(this.model);
+      this.current_event_template = new EventTemplate();
     },
 
     onShow:function () {
@@ -65,6 +70,7 @@ define([
       this.loadSocketIoClients();
       this.initCallbacksGrid();
       this.loadCallbacks();
+      this.loadEventTemplates();
 
       Helpers.preventTabChangeFocus("#new_callback_function_code");
       Helpers.renderModel("#event_callback_edit_form", this.current_event_callback);
@@ -109,6 +115,24 @@ define([
       });
     },
 
+    loadEventTemplates:function() {
+      var $template_select = $("#event_template_select");
+
+      $template_select.empty();
+      $template_select.prepend("<option value='new'>New...</option>").prepend("<option></option>");
+
+      this.event_templates.load(function (err, model) {
+        if (err !== null) {
+          debug("Failed to load event templates");
+          return;
+        }
+        var index, template;
+        for (index in model.models) {
+          template = model.models[index];
+          $template_select.append("<option value='" + template.getId() + "'>" + template.get("name") +"</option>");
+        }
+      });
+    },
 
     events:{
       'click #save_proxy_function_code_btn':'onSaveProxyFunctionCodeBtn',
@@ -116,7 +140,11 @@ define([
 
       'click #edit_selected_callback_btn':'onEditSelectedCallbackBtn',
       'click #remove_selected_callback_btn':'onRemoveSelectedCallbackBtn',
-      'click #add_update_event_callback_btn':'onAddUpdateEventCallbackBtn'
+      'click #add_update_event_callback_btn':'onAddUpdateEventCallbackBtn',
+
+      'change #event_template_select':'onEventTemplateSelect',
+      'click #save_as_template_btn':'onSaveAsTemplateBtn',
+      'click #remove_from_templates_btn':'onRemoveFromTemplatesBtn'
     },
 
     onSaveProxyFunctionCodeBtn:function () {
@@ -196,8 +224,38 @@ define([
         debug("save result", err, result);
         view.loadCallbacks();
       });
-    }
+    },
 
+    onEventTemplateSelect: function() {
+      var selected_template_id = $("#event_template_select").val();
+
+      if (selected_template_id == 'new') {
+        var template_name = prompt("Template name:", "some new template");
+        $("#event_template_select").append("<option>" + template_name + "</option>").val(template_name);
+        this.current_event_template = new EventTemplate();
+        this.current_event_template.set("name", template_name);
+        debug("current event template: ", this.current_event_template);
+      } else {
+        var template = this.event_templates.where({_id: selected_template_id});
+        if (!_.isEmpty(template)) {
+          this.current_event_template.clean();
+          this.current_event_template.set(template);
+        }
+      }
+
+      Helpers.renderModel("#send_notification_form", this.current_event_template);
+    },
+
+    onSaveAsTemplateBtn: function() {
+      this.current_event_template.set("app_id", this.model.getId());
+      this.current_event_template.save(function(err, model) {
+        //TODO: add updating select with new id
+      });
+    },
+
+    onRemoveFromTemplatesBtn: function() {
+      // TODO:
+    }
   });
 
 
