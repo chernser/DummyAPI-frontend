@@ -1,9 +1,8 @@
-/*@import "h5bp.css";*/
+@import "h5bp.css";
 @import "bootstrap.css";
 @import "bootstrap-responsive.css";
 @import "jquery-ui-1.8.16.custom.css";
 @import "ui.jqgrid.css";
-@import "index-responsive.css";
 
 body {
     padding-bottom: 40px;
@@ -78,18 +77,21 @@ body {
     left-padding: 0px;
 }
 
-#docs_methods .accordion-toggle {
-    font-size: 14pt;
-}
 
-.inline-label {
+.light {
+    height: 32px;
+    width: 32px;
     display: inline-block;
-    padding-top: 5px;
-    margin-bottom: 0;
-    vertical-align: middle;
+    vertical-align: top;
+    background-image: url('/img/lightbulb-icon.png');
 }
 
-.form-horizontal {
-    padding: 30px;
+.light.off {
+    background-image: url('/img/lightbulb-off-icon.png');
 }
 
+.wiki-link {
+    font-size: 12pt;
+    font-weight: lighter;
+    padding-left: 5px;
+}
