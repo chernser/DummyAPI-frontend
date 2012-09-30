@@ -2,18 +2,20 @@ define([
   "app",
   "models/object_type",
   "models/object_types",
+  "models/documentation",
+  "views/documentation_methods",
   "plugins/backbone.marionette",
   "jquery",
   "underscore",
   "helpers"
 
-], function (App, ObjectType, ObjectTypes, Marionette, $, _, Helpers) {
+], function (App, ObjectType, ObjectTypes, Documentation, DocMethodsView, Marionette, $, _, Helpers) {
 
 
   var view = Marionette.ItemView.extend({
-    template:'documentation',
+    template: 'documentation',
 
-    initialize:function (attributes) {
+    initialize: function (attributes) {
 
       debug("documentation: ", attributes.model.getId());
       this.app_id = attributes.model.getId();
@@ -21,16 +23,15 @@ define([
       this.model = attributes.model;
 
       this.current_object_type = new ObjectType({});
-
     },
 
 
-    selectObjectType:function (object_type) {
+    selectObjectType: function (object_type) {
       this.current_object_type.clear();
       this.current_object_type.set(object_type.attributes);
     },
 
-    loadObjectTypes:function (callback) {
+    loadObjectTypes: function (callback) {
       var view = this;
       var resource_nav_handler = function (event) {
         view.selectObjectType($(this).data());
@@ -55,7 +56,7 @@ define([
     },
 
 
-    renderCurrentObjectType:function () {
+    renderCurrentObjectType: function () {
       debug("Rendering object type: ", this.current_object_type.get("name"));
       var view = this;
 
@@ -73,10 +74,39 @@ define([
         }
       });
 
+      var methods = [
+        {method: 'POST', title: 'Create resource instance',
+          status_codes: [
+            { code: 404, short_desc: 'not found', desc: "Resource not found"},
+            { code: 400, short_desc: 'invalid request', desc: "Validation rules failed"}
+          ],
+          fields: [
+            {name: 'obj_id', type:'String', desc: 'Object identificator'},
+            {name: 'title', type: 'String', desc: 'Article title'},
+            {name: 'issue_number', type: 'Number', desc: 'Issue number to which article belongs'}
+          ]
+        },
+        {method: 'PUT', title: 'Update resource instance'}
+      ];
+      var index;
+      for (index in methods) {
+        methods[index].route_pattern = view.current_object_type.get("route_pattern");
+      }
+      debug("methods to render: ", methods);
+      var methods_collection = new Documentation.Methods(methods);
+      var methods_documentation = new DocMethodsView({collection: methods_collection});
+      debug("methods docs: ", methods_documentation);
+      methods_documentation.render(function () {
+        debug("Methods documentation render done:", methods_documentation.el);
+      });
+
+      $("#docs_methods").html(methods_documentation.$el.html());
+
+      $(".collapse").collapse().first().collapse('show');
       // Showing object type documentation
     },
 
-    onRender: function() {
+    onRender: function () {
 
       var view = this;
       this.loadObjectTypes(function (err, model) {
@@ -95,15 +125,15 @@ define([
 
       $(".collapse").collapse().first().collapse('show');
 
-/*
+      /*
 
-      $("a.accordion-toggle").click(function(e) {
-        $(this.href).collapse('toggle');
-        e.preventDefault(); return false;
-      });*/
+       $("a.accordion-toggle").click(function(e) {
+       $(this.href).collapse('toggle');
+       e.preventDefault(); return false;
+       });*/
     },
 
-    events:{
+    events: {
 
 
     }

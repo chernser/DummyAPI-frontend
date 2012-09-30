@@ -1,0 +1,87 @@
+<div class="accordion-group">
+    <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#docs_methods"
+           data-target="#collapse{{method}}">
+            {{method}} {{route_pattern}}
+            <i>&nbsp;&ndash;&nbsp;{{title}}</i>
+        </a>
+
+    </div>
+    <div id="collapse{{method}}" class="accordion-body collapse in">
+        <div class="accordion-inner">
+            <div class="row-fluid">
+                <div class="form-horizontal">
+
+                    <div class="control-group">
+                        <label class="control-label">Title</label>
+
+                        <div class="controls">
+                            <input type="text" class="input-xlarge" value="{{title}}"/>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Returns</label>
+
+                        <div class="controls controls-row">
+                            <label class="checkbox inline">
+                                <input type="checkbox"/>
+                                400
+                            </label>
+                            <label class="checkbox inline">
+                                <input type="checkbox"/>
+                                409
+                            </label>
+                            <label class="checkbox inline">
+                                <input type="checkbox"/>
+                                204
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <h4 class="span12" style="text-align: center;">Payload description</h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each fields}}
+                        <tr>
+                            <td>{{name}}</td>
+                            <td><i>{{type}}</i></td>
+                            <td>{{desc}}</td>
+                            <td><i class="icon icon-edit"></i>&nbsp;<i class="icon icon-remove"></i></td>
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <h4 class="span12" style="text-align: center;">Status code description</h4>
+                    <table class="table">
+                        {{#each status_codes}}
+                        <tr>
+                            <td>{{code}}&nbsp;({{short_desc}})</td>
+                            <td>{{desc}}</td>
+                            <td><i class="icon icon-edit"></i>&nbsp;<i class="icon icon-remove"></i></td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

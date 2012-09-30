@@ -1,8 +1,9 @@
-@import "h5bp.css";
+/*@import "h5bp.css";*/
 @import "bootstrap.css";
 @import "bootstrap-responsive.css";
 @import "jquery-ui-1.8.16.custom.css";
 @import "ui.jqgrid.css";
+@import "index-responsive.css";
 
 body {
     padding-bottom: 40px;
@@ -94,4 +95,9 @@ body {
     font-size: 12pt;
     font-weight: lighter;
     padding-left: 5px;
+}
+
+
+#docs_methods .accordion-toggle {
+    font-size: 14pt;
 }
