@@ -5,9 +5,10 @@ define([
   "socket_io",
   "backbone",
   "plugins/backbone.marionette",
-  "helpers"
+  "helpers",
+  "app_docs"
 
-], function (app, EventCallback, EventCallbacks, io, Backbone, Marionette, Helpers) {
+], function (app, EventCallback, EventCallbacks, io, Backbone, Marionette, Helpers, AppDocs) {
   var view = Marionette.ItemView.extend({
     template:"notifications",
 
@@ -16,18 +17,33 @@ define([
       this.model = attributes.model;
 
       this.event_callbacks = new EventCallbacks(this.model);
-      this.current_event_callback = new EventCallback({});
+      this.current_event_callback = new EventCallback();
     },
 
     onShow:function () {
       var options = {
-        title:"Proxy function help",
-        content:"This function should return object with fields 'name', 'type', 'data'" +
-          "By default 'event' passed to function has correct 'name', 'type' fields" +
-          "If message should be sent instead event, set event.type = 'msg'",
+        title:"Proxy function",
+        content:"<b>event</b> - event object with&nbsp;'name',&nbsp;'type',&nbsp;'data'&nbsp;fields<br>" +
+        "<b>data</b> - event data<br><br>" +
+        "<b>Returns</b>: <br>event object with 'data' field and fields above",
         trigger:"click"
       };
       $("#proxy_function_help_btn").popover(options);
+
+      $("#event_data").val('{\n    "value": 123\n}\n');
+
+      if (!this.model.has("notify_proxy_fun") || _.isEmpty(this.model.get("notify_proxy_fun"))) {
+        var default_proxy_code = "function proxy(event, data) {\n    event.data = data;\n   return event;\n}";
+        $("#proxy_function_code").val(default_proxy_code);
+      }
+
+      var callback_function_help_popover_options = {
+        title:"Callback function",
+        content: "",
+        trigger:"click"
+      };
+
+      $("#callback_function_help_btn").popover(callback_function_help_popover_options);
 
       var view = this;
 
@@ -51,6 +67,11 @@ define([
       this.loadCallbacks();
 
       Helpers.preventTabChangeFocus("#new_callback_function_code");
+      Helpers.renderModel("#event_callback_edit_form", this.current_event_callback);
+    },
+
+    onRender:function () {
+      AppDocs.init(this.$el);
     },
 
     printEvent:function (event) {
@@ -164,8 +185,8 @@ define([
       this.current_event_callback.set("app_id", this.model.getId());
 
       var event_name = this.current_event_callback.get("event_name");
-      var exists = _.isEmpty(this.event_callbacks.where({event_name:event_name}));
-      if (exists) {
+      var is_new = _.isEmpty(this.event_callbacks.where({event_name:event_name}));
+      if (is_new === true) {
         delete this.current_event_callback._id;
         delete this.current_event_callback.id;
       }

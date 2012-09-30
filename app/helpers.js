@@ -85,9 +85,32 @@ define([
     return null;
   };
 
+  Helpers.setGridColumnPosition = function (grid_container_id, column, position) {
+    var col_names = $(grid_container_id).jqGrid('getGridParam', 'colNames');
+    if (!_.isEmpty(col_names)) {
+      var col_position = col_names.indexOf(column);
+      if (col_position < 0 ) {
+        return;
+      }
+
+      var new_column_order = [];
+      for (var index in col_names) {
+        if (index == position) {
+          new_column_order.push(col_position);
+        } else if (index == col_position) {
+          continue;
+        }
+
+        new_column_order.push(index);
+      }
+      $(grid_container_id).jqGrid('remapColumns', new_column_order, true, false);
+    }
+  };
+
   Helpers.renderModel = function (container_id, model) {
     var $form = $(container_id);
-    for (var attr in model.attributes) {
+    var object = model.toJSON();
+    for (var attr in object) {
       var selector = [" [field='", attr, "']"].join('');
       var control = $form.find(selector);
       if (control.attr("type") == "checkbox") {
@@ -172,9 +195,9 @@ define([
 
       if (!_.isUndefined(field)) {
         if ($item.attr("type") == "checkbox") {
-          model.set(field,$item.is(":checked"));
+          model.set(field, $item.is(":checked"));
         } else {
-          model.set(field,$item.val());
+          model.set(field, $item.val());
         }
       }
     });

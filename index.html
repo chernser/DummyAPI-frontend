@@ -43,14 +43,16 @@
 
 <div id="_footer" class="navbar navbar-fixed-bottom">
     <div class="navbar-inner">
-        <a id="toggle_footer" class="pull-right" style="margin-right: 30px;" href="#"><i class="icon icon-chevron-down"></i></a>
+        <a id="toggle_footer" class="pull-right" style="margin-right: 30px;" href="#"><i
+                class="icon icon-chevron-down"></i></a>
+
         <div class="container footer">
             <div class="span3">
                 <h6>Documentation</h6>
 
-                <p><a href="https://github.com/chernser/DummyAPI-backend/wiki">Wiki</a></p>
+                <p><a href="https://github.com/chernser/DummyAPI-backend/wiki">Backend Wiki</a></p>
 
-                <p><a href="https://github.com/chernser/DummyAPI-backend/wiki">How-To</a></p>
+                <p><a href="https://github.com/chernser/DummyAPI-frontend/wiki/HowTo's">How-To's</a></p>
             </div>
             <div class="span3">
                 <h6>Source Code</h6>
@@ -65,7 +67,9 @@
             </div>
             <div class="span3">
                 <h6>About</h6>
-                <p><b>frontend ver.</b>&nbsp;<i>p0.1.2</i></p>
+
+                <p><b>frontend ver.</b>&nbsp;<i>0.1.5b</i></p>
+
                 <p><b>backend ver.</b>&nbsp;<i id="_backend_version">???</i></p>
             </div>
 
@@ -76,29 +80,34 @@
 <!-- Application source. -->
 <script data-main="/app/config" src="/app/require.js"></script>
 <script type="text/javascript">
-    (function() {
+    (function () {
         var show_footer = true;
 
-        $("#toggle_footer").click(function(e) {
-            debug("toggle footer");
-
-            if (show_footer === true)  {
-                $("#_footer").animate({bottom: -120}, function() {
+        var toggle_footer = function () {
+            if (show_footer === true) {
+                $("#_footer").animate({bottom:-120}, function () {
                     show_footer = false;
                     $("#toggle_footer i").removeClass("icon-chevron-down").addClass("icon-chevron-up");
                 });
             } else {
-                $("#_footer").animate({bottom: 0}, function() {
+                $("#_footer").animate({bottom:0}, function () {
                     show_footer = true;
 
                     $("#toggle_footer i").removeClass("icon-chevron-up").addClass("icon-chevron-down");
                 });
 
             }
+        };
 
+        $("#toggle_footer").click(function (e) {
+            debug("toggle footer");
+
+            toggle_footer();
             e.preventDefault();
             return false;
         });
+
+        toggle_footer();
     }());
 
 </script>

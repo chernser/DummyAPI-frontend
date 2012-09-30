@@ -2,9 +2,10 @@ define([
 
   "helpers",
   "backbone",
-  "plugins/backbone.marionette"
+  "plugins/backbone.marionette",
 
-], function (Helpers, Backbone, Marionette) {
+  "app_docs"
+], function (Helpers, Backbone, Marionette, AppDocs) {
 
   var view = Marionette.ItemView.extend({
     template:"general",
@@ -23,6 +24,10 @@ define([
     onShow:function () {
       $("#confirmation_code").text(Helpers.generateCode());
       $("#clone_name").val(this.model.get("name") + "_clone_" + (new Date().getTime()));
+      AppDocs.init();
+    },
+
+    onRender: function() {
     },
 
     events:{
@@ -30,7 +35,8 @@ define([
       'click #renew_access_token_btn':'renewAccessToken',
       'click #save_application_description_btn':'onSaveApplicationDescriptionBtn',
       'click #delete_application_btn':'onDeleteApplicationBtn',
-      'click #clone_application_btn':'onCloneApplicationBtn'
+      'click #clone_application_btn':'onCloneApplicationBtn',
+      'click #save_routes_prefix_btn':'onSaveRoutesPrefixBtn'
 
     },
 
@@ -40,11 +46,18 @@ define([
     },
 
     onSaveApplicationDescriptionBtn:function () {
-
       this.model.set("description", $("#application_description").val());
       this.model.put(function (err, model) {
         debug("Description save result");
       });
+    },
+
+    onSaveRoutesPrefixBtn:function() {
+      this.model.set("routes_prefix", $("#application_routes_prefix_btn").val());
+      this.model.put(function (err, model) {
+        debug("Prefix saved");
+      });
+
     },
 
     onDeleteApplicationBtn:function () {
