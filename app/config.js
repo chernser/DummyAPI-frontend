@@ -1,54 +1,59 @@
 // Set the require.js configuration for your application.
 require.config({
 
-    // Initialize the application with the main application file.
-    deps:["main"],
+  // Initialize the application with the main application file.
+  deps:["main"],
 
-    paths:{
-        // JavaScript folders.
-        libs:"../assets/js/libs",
-        plugins:"../assets/js/plugins",
-        models: "models",
-        views: "views",
+  paths:{
+    // JavaScript folders.
+    libs:"../assets/js/libs",
+    plugins:"../assets/js/plugins",
+    models:"models",
+    views:"views",
 
-        // Libraries.
-        handlebars:"../assets/js/libs/handlebars_runtime",
-        tbootstrap:"../assets/js/libs/bootstrap.min",
+    // Libraries.
+    handlebars:"../assets/js/libs/handlebars_runtime",
+    tbootstrap:"../assets/js/libs/bootstrap.min",
 
-        jquery:"../assets/js/libs/jquery",
-        underscore:"../assets/js/libs/lodash",
-        backbone:"../assets/js/libs/backbone",
-        jqgrid: "../assets/js/libs/jquery.jqGrid.min",
+    jquery:"../assets/js/libs/jquery",
+    underscore:"../assets/js/libs/lodash",
+    backbone:"../assets/js/libs/backbone",
+    jqgrid:"../assets/js/libs/jquery.jqGrid.min",
+    socket_io:"../node_modules/socket.io-client/dist/socket.io.min",
 
-        // Plugins
-        marionette:"../assets/js/plugins/backbone.marionette"
+    // Plugins
+    marionette:"../assets/js/plugins/backbone.marionette"
 
+  },
+
+  shim:{
+
+    socket_io:{
+      exports:"io"
     },
 
-    shim:{
+    handlebars:{
+      exports:"Handlebars"
+    },
 
-        handlebars: {
-            exports:"Handlebars"
-        },
+    backbone:{
+      deps:["underscore", "jquery"],
+      exports:"Backbone"
+    },
 
-        backbone:{
-            deps:["underscore", "jquery"],
-            exports:"Backbone"
-        },
-
-        jqgrid: {
-            deps:["jquery"]
-        },
+    jqgrid:{
+      deps:["jquery"]
+    },
 
 
-        JST: {
-            deps: ["handlebars"]
-        },
+    JST:{
+      deps:["handlebars"]
+    },
 
-        marionette: {
-            deps: ["underscore", "backbone"],
-            exports: "Backbone.Marionette"
-        }
+    marionette:{
+      deps:["underscore", "backbone"],
+      exports:"Backbone.Marionette"
     }
+  }
 
 });

@@ -3,8 +3,10 @@ define([
   "models/backend",
   "models/applications",
   "views/applications",
-  "plugins/backbone.marionette"
-], function (app, Backend, ApplicationModel, ApplicationsView, Marionette) {
+  "plugins/backbone.marionette",
+  "underscore",
+  "helpers"
+], function (app, Backend, ApplicationModel, ApplicationsView, Marionette, _, Helpers) {
   var view = Marionette.ItemView.extend({
     template:"applications_upper_context",
 
@@ -13,8 +15,17 @@ define([
     },
 
     serializeData:function () {
-      return {backends:app.config.backends};
+      var backends = [];
+      for (var title in app.config.backends) {
+        backends.push({title: title, server: app.config.backends[title]});
+      }
+      return {backends: backends};
     },
+
+    onShow: function() {
+      app.updateBackendInfo();
+    },
+
 
     events:{
       'change #backend_selector':'onBackendSelectorChange'
@@ -27,9 +38,10 @@ define([
 
       debug("Backend changed to: ", backend_title, backend_server);
       $("#current_backend").text(backend_title);
-      app.config.backend.server = backend_server;
+      app.config.backend = backend_server;
       this.applications_view.reload();
 
+      app.updateBackendInfo();
     }
 
   });

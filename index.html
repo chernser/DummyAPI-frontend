@@ -8,16 +8,28 @@
     <title>DummyAPI: Mocked Backend UI</title>
 
     <!-- Application styles. -->
-    <link rel="stylesheet" href="/assets/css/index.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <style>
+        #main {
+            padding-bottom: 200px;
+        }
+
+        ._footer_on {
+            position: fixed;
+            bottom: 200px;
+        }
+
+    </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="container-fluid">
     <!-- Header -->
     <div class="row-fluid">
         <div class="span12">
-            <h1><a href="/">DummyAPI</a> on <i id="current_backend">localhost</i></h1>
+            <h1><a href="/">DummyAPI</a> on <i id="current_backend"></i></h1>
+
             <div id="upper_context"></div>
             <hr/>
         </div>
@@ -27,7 +39,77 @@
     <div role="main" id="main" class="row-fluid"></div>
 </div>
 
+<!-- Footer -->
+
+<div id="_footer" class="navbar navbar-fixed-bottom">
+    <div class="navbar-inner">
+        <a id="toggle_footer" class="pull-right" style="margin-right: 30px;" href="#"><i
+                class="icon icon-chevron-down"></i></a>
+
+        <div class="container footer">
+            <div class="span3">
+                <h6>Documentation</h6>
+
+                <p><a href="https://github.com/chernser/DummyAPI-backend/wiki">Backend Wiki</a></p>
+
+                <p><a href="https://github.com/chernser/DummyAPI-frontend/wiki/HowTo's">How-To's</a></p>
+            </div>
+            <div class="span3">
+                <h6>Source Code</h6>
+
+                <p><a href="https://github.com/chernser/DummyAPI-backend">GitHub: Backend</a></p>
+
+                <p><a href="https://github.com/chernser/DummyAPI-frontend">GitHub: Frontend</a></p>
+
+                <p><a href="https://bitbucket.org/chernser/dummyapi-backend">Bitbucket: Backend</a></p>
+
+                <p><a href="https://bitbucket.org/chernser/dummyapi-frontend">Bitbucket: Frontend</a></p>
+            </div>
+            <div class="span3">
+                <h6>About</h6>
+
+                <p><b>frontend ver.</b>&nbsp;<i>0.1.5b</i></p>
+
+                <p><b>backend ver.</b>&nbsp;<i id="_backend_version">???</i></p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <!-- Application source. -->
-<script data-main="/app/config" src="/dist/debug/require.js"></script>
+<script data-main="/app/config" src="/app/require.js"></script>
+<script type="text/javascript">
+    (function () {
+        var show_footer = true;
+
+        var toggle_footer = function () {
+            if (show_footer === true) {
+                $("#_footer").animate({bottom:-120}, function () {
+                    show_footer = false;
+                    $("#toggle_footer i").removeClass("icon-chevron-down").addClass("icon-chevron-up");
+                });
+            } else {
+                $("#_footer").animate({bottom:0}, function () {
+                    show_footer = true;
+
+                    $("#toggle_footer i").removeClass("icon-chevron-up").addClass("icon-chevron-down");
+                });
+
+            }
+        };
+
+        $("#toggle_footer").click(function (e) {
+            debug("toggle footer");
+
+            toggle_footer();
+            e.preventDefault();
+            return false;
+        });
+
+        toggle_footer();
+    }());
+
+</script>
 </body>
 </html>

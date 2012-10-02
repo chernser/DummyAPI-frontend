@@ -53,10 +53,8 @@ define([
       sortname:'name',
       sortorder:'desc',
       viewrecords:false,
-      autowidth: true,
-      shrinkToFit: false
-
-
+      autowidth:true,
+      shrinkToFit:false
     };
 
     return options;
@@ -87,10 +85,39 @@ define([
     return null;
   };
 
+  Helpers.setGridColumnPosition = function (grid_container_id, column, position) {
+    var col_names = $(grid_container_id).jqGrid('getGridParam', 'colNames');
+    if (!_.isEmpty(col_names)) {
+      var col_position = col_names.indexOf(column);
+      if (col_position < 0 ) {
+        return;
+      }
+
+      var new_column_order = [];
+      for (var index in col_names) {
+        if (index == position) {
+          new_column_order.push(col_position);
+        } else if (index == col_position) {
+          continue;
+        }
+
+        new_column_order.push(index);
+      }
+      $(grid_container_id).jqGrid('remapColumns', new_column_order, true, false);
+    }
+  };
+
   Helpers.renderModel = function (container_id, model) {
-    for (var attr in model.attributes) {
-      var selector = [container_id, " [field='", attr, "']"].join('');
-      $(selector).val(model.get(attr));
+    var $form = $(container_id);
+    var object = model.toJSON();
+    for (var attr in object) {
+      var selector = [" [field='", attr, "']"].join('');
+      var control = $form.find(selector);
+      if (control.attr("type") == "checkbox") {
+        control.prop("checked", model.get(attr));
+      } else {
+        control.val(model.get(attr));
+      }
     }
   };
 
@@ -128,13 +155,13 @@ define([
 
   Helpers.doHttpRequest = function (url, args, opts, callback) {
 
-    var data = '';
-    if (!_.isUndefined(args)) {
+    var data = null;
+    if (args !== null && !_.isUndefined(args)) {
       data = JSON.stringify(args);
     }
 
     var method = 'POST';
-    if (opts !== null) {
+    if (!_.isUndefined(opts) && opts !== null) {
       method = _.isUndefined(opts.method) ? method : opts.method;
     }
 
@@ -143,7 +170,7 @@ define([
       dataType:'json',
       contentType:'application/json',
       data:data,
-      url: url,
+      url:url,
 
       success:function (result) {
         if (_.isFunction(callback)) {
@@ -158,6 +185,23 @@ define([
       }
 
     });
+  };
+
+
+  Helpers.formToModel = function (form_elem_selector, model) {
+    $(form_elem_selector + " [field]").each(function (index, item) {
+      var $item = $(item);
+      var field = $item.attr("field");
+
+      if (!_.isUndefined(field)) {
+        if ($item.attr("type") == "checkbox") {
+          model.set(field, $item.is(":checked"));
+        } else {
+          model.set(field, $item.val());
+        }
+      }
+    });
+
   };
 
 

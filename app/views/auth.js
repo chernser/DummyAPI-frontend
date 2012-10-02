@@ -11,9 +11,11 @@ define([
   "jquery",
   "jqgrid",
 
-  "helpers"
+  "helpers",
+  "app_docs"
 
-], function (User, Users, UserGroup, UserGroups, Backbone, Marionette, $, Grid, Helpers) {
+
+], function (User, Users, UserGroup, UserGroups, Backbone, Marionette, $, Grid, Helpers, AppDocs) {
 
   // Init slick plugin
   var view = Marionette.ItemView.extend({
@@ -54,6 +56,10 @@ define([
 
       this.reloadUserGroups();
       this.renderCurrentUserGroup();
+    },
+
+    onRender:function () {
+      AppDocs.init(this.$el);
     },
 
     initUsersTable:function () {
@@ -130,6 +136,7 @@ define([
 
     createUserBtn:function () {
       var view = this;
+      Helpers.formToModel("#user_edit_form", this.current_user);
       delete this.current_user.id;
       this.current_user.put(function (err, model) {
         view.reloadUsers();
@@ -139,6 +146,7 @@ define([
 
     saveUserBtn:function () {
       var view = this;
+      Helpers.formToModel("#user_edit_form", this.current_user);
       this.current_user.put(function (err, model) {
         view.reloadUsers();
       });
