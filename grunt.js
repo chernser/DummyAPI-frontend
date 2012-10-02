@@ -3,6 +3,7 @@
 // https://github.com/cowboy/grunt/blob/master/docs/configuring.md
 module.exports = function (grunt) {
 
+ grunt.loadTasks('tasks');
 
   grunt.initConfig({
 
@@ -116,7 +117,8 @@ module.exports = function (grunt) {
           out:"dist/debug/app/require.js",
           optimize: "none"
         }
-      },
+      }
+      ,
 
       release:{
         options:{
@@ -165,7 +167,6 @@ module.exports = function (grunt) {
     }
 
   });
-
 
   grunt.registerTask("build-debug", "clean lint requirejs:debug handlebars concat:debug");
 

@@ -9,10 +9,11 @@ define([
   // Plugins.
   "plugins/backbone.marionette",
 
-  "helpers"
+  "helpers",
+  "handlebars"
 ],
 
-  function (config, $, _, Backbone, Marionette, Helpers) {
+  function (config, $, _, Backbone, Marionette, Helpers, Handlebars) {
     debug(config);
     var TEMPLATE_PREFIX = 'app/templates/';
     var TEMPLATE_EXT = '.hbs';
@@ -21,8 +22,15 @@ define([
       // The root path to run the application.
       root:"/",
 
-      getJSTTemplate:function (template, data) {
-        return JST[template](data);
+      handlebarsRenderCompiledTemplate:function (template, data) {
+        //cache the handlebars compiled template function
+        if(!("cache" in Handlebars)) {
+          Handlebars.cache = {};
+        }
+        if(!(template in Handlebars.cache)) {
+          Handlebars.cache[template] = Handlebars.VM.template(JST[template]);
+        }
+        return Handlebars.cache[template](data);
       }
     });
 
@@ -33,7 +41,7 @@ define([
 
     // Tunes
     Marionette.Renderer.render = function (template, data) {
-      return app.getJSTTemplate(template, data);
+      return app.handlebarsRenderCompiledTemplate(template, data);
     };
 
 
