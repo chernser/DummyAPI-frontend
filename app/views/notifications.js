@@ -2,13 +2,15 @@ define([
   "app",
   "models/event_callback",
   "models/event_callbacks",
+  "models/event_template",
+  "models/event_templates",
   "socket_io",
   "backbone",
   "plugins/backbone.marionette",
   "helpers",
   "app_docs"
 
-], function (app, EventCallback, EventCallbacks, io, Backbone, Marionette, Helpers, AppDocs) {
+], function (app, EventCallback, EventCallbacks, EventTemplate, EventTemplates, io, Backbone, Marionette, Helpers, AppDocs) {
   var view = Marionette.ItemView.extend({
     template:"notifications",
 
@@ -18,6 +20,9 @@ define([
 
       this.event_callbacks = new EventCallbacks(this.model);
       this.current_event_callback = new EventCallback();
+
+      this.event_templates = new EventTemplates(this.model);
+      this.current_event_template = new EventTemplate();
     },
 
     onShow:function () {
@@ -30,7 +35,7 @@ define([
       };
       $("#proxy_function_help_btn").popover(options);
 
-      $("#event_data").val('{\n    "value": 123\n}\n');
+      //$("#event_data").val('{\n    "value": 123\n}\n');
 
       if (!this.model.has("notify_proxy_fun") || _.isEmpty(this.model.get("notify_proxy_fun"))) {
         var default_proxy_code = "function proxy(event, data) {\n    event.data = data;\n   return event;\n}";
@@ -63,6 +68,7 @@ define([
       });
 
       this.loadSocketIoClients();
+      this.loadSavedEventTemplates();
       this.initCallbacksGrid();
       this.loadCallbacks();
 
@@ -109,6 +115,23 @@ define([
       });
     },
 
+    loadSavedEventTemplates:function() {
+      var view = this;
+      this.event_templates.load(function (err, templates) {
+        var data = view.event_templates.toJSON();
+        debug("event_templates", data);
+
+        var template;
+        var $event_template_list = $("#event_template_list");
+        $event_template_list.append("<option value=''>-----</option>");
+        for (var index in templates.models) {
+          template = templates.models[index];
+          var i = template.get('_id');
+          debug(template);
+          $event_template_list.append("<option value=\"" + template.get('_id') + "\">" + template.get('event_name') + "</option>");
+        }
+      });
+    },
 
     events:{
       'click #save_proxy_function_code_btn':'onSaveProxyFunctionCodeBtn',
@@ -116,7 +139,46 @@ define([
 
       'click #edit_selected_callback_btn':'onEditSelectedCallbackBtn',
       'click #remove_selected_callback_btn':'onRemoveSelectedCallbackBtn',
-      'click #add_update_event_callback_btn':'onAddUpdateEventCallbackBtn'
+      'click #add_update_event_callback_btn':'onAddUpdateEventCallbackBtn',
+
+      'change #event_template_list':'onEventTemplateChange',
+      'click #save_template_btn':'onSaveTemplateBtn'
+    },
+
+
+    onEventTemplateChange:function () {
+      var selectedEventTemplate = $("#event_template_list").val(); //the id of the event
+      debug("Id event template selected: ", selectedEventTemplate);
+
+      //TODO - get the idAttribute working to recognize '_id'.
+      //this.current_event_template = this.event_templates.get(selectedEventTemplate);
+      _.each(this.event_templates.models, function(model){
+        if(model.get('_id') == selectedEventTemplate){
+          this.current_event_template = model;
+          debug("selected template model: ", this.current_event_template);
+          $("#event_name").val(this.current_event_template.get('event_name'));
+          $("#event_data").val(this.current_event_template.get('event_data')); 
+        }
+      });
+    },
+
+    onSaveTemplateBtn:function () {
+      debug("save template called");
+      var view = this;
+      var event_template_name = $("#event_name").val();
+      var event_template_data = $("#event_data").val();
+      debug(this.current_event_template);
+
+      this.current_event_template.set("app_id", this.model.getId());
+      this.current_event_template.set("event_name", event_template_name);
+      this.current_event_template.set("event_data", event_template_data);
+
+      debug(this.current_event_template.isNew());
+
+      this.current_event_template.put(function (err, result) {
+        debug("event template save result", err, result);
+        view.loadSavedEventTemplates();
+      });
     },
 
     onSaveProxyFunctionCodeBtn:function () {

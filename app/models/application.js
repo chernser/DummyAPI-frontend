@@ -43,6 +43,40 @@ define([
       });
     },
 
+    getSavedEventTemplates:function(callback) {
+      var self;
+      if("cachedEventTemplates" in this) {
+        callback(null, this.cachedEventTemplates);
+        return;
+      }
+      self = this;
+      this.doAction('event_template', null, {method: 'GET'}, function(err, result) {
+        if(result !== null) {
+          self.cachedEventTemplates = result.templates;
+        }
+        callback(err, result !== null ? result.templates : null);
+      });
+    },
+
+    getSavedEventTemplateById:function(id, callback) {
+      //get all the templates
+      this.getSavedEventTemplates(function(err, templates) {
+        var n;
+        if(templates) {
+          //find the template with id
+          n = templates.length;
+          while(n--) {
+            if(templates[n].id === id) {
+              //call the callback given the template    
+              callback(templates[n]);
+              break;
+            }
+          }
+          
+        }
+      });
+    },
+
     clone:function (opts, callback) {
       this.doAction('clone', opts, callback);
     }
