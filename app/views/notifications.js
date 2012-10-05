@@ -13,6 +13,7 @@ define([
 ], function (app, EventCallback, EventCallbacks, EventTemplate, EventTemplates, io, Backbone, Marionette, Helpers, AppDocs) {
   var view = Marionette.ItemView.extend({
     template:"notifications",
+    //current_event_template: null,
 
     initialize:function (attributes) {
       debug("Initialize view notifications");
@@ -68,9 +69,10 @@ define([
       });
 
       this.loadSocketIoClients();
-      this.loadSavedEventTemplates();
+      
       this.initCallbacksGrid();
       this.loadCallbacks();
+      this.loadSavedEventTemplates();
 
       Helpers.preventTabChangeFocus("#new_callback_function_code");
       Helpers.renderModel("#event_callback_edit_form", this.current_event_callback);
@@ -142,42 +144,48 @@ define([
       'click #add_update_event_callback_btn':'onAddUpdateEventCallbackBtn',
 
       'change #event_template_list':'onEventTemplateChange',
-      'click #save_template_btn':'onSaveTemplateBtn'
+      'click #save_template_btn':'onSaveTemplateBtn',
+      'click #delete_template_btn':'onDeleteTemplateBtn'
     },
 
 
     onEventTemplateChange:function () {
-      var selectedEventTemplate = $("#event_template_list").val(); //the id of the event
-      debug("Id event template selected: ", selectedEventTemplate);
+      var selected_event_template = $("#event_template_list").val(); //the id of the event
+      debug("Id event template selected: ", selected_event_template);
 
-      //TODO - get the idAttribute working to recognize '_id'.
-      //this.current_event_template = this.event_templates.get(selectedEventTemplate);
-      _.each(this.event_templates.models, function(model){
-        if(model.get('_id') == selectedEventTemplate){
-          this.current_event_template = model;
-          debug("selected template model: ", this.current_event_template);
-          $("#event_name").val(this.current_event_template.get('event_name'));
-          $("#event_data").val(this.current_event_template.get('event_data')); 
-        }
-      });
+      template = this.event_templates.get(selected_event_template);
+      if(template) {
+        this.current_event_template = template;
+        debug("selected template model: ", this.current_event_template);
+        $("#event_name").val(this.current_event_template.get('event_name'));
+        $("#event_data").val(this.current_event_template.get('event_data')); 
+        $("#save_template_btn").text('Update');
+      }
+     
     },
 
     onSaveTemplateBtn:function () {
-      debug("save template called");
-      var view = this;
+      var self = this;
       var event_template_name = $("#event_name").val();
       var event_template_data = $("#event_data").val();
-      debug(this.current_event_template);
+      //debug(this.current_event_template);
 
       this.current_event_template.set("app_id", this.model.getId());
       this.current_event_template.set("event_name", event_template_name);
       this.current_event_template.set("event_data", event_template_data);
 
-      debug(this.current_event_template.isNew());
-
       this.current_event_template.put(function (err, result) {
         debug("event template save result", err, result);
-        view.loadSavedEventTemplates();
+        self.loadSavedEventTemplates();
+      });
+    },
+
+    onDeleteTemplateBtn:function() {
+      debug("delete template");
+      var self = this;
+      this.current_event_template.remove(function (err, result) {
+        debug("Event Template remove result: ", err, result);
+        self.loadSavedEventTemplates();
       });
     },
 

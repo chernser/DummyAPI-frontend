@@ -112,6 +112,7 @@ define([
     },
 
     load:function (callback) {
+      var self = this;
       this.fetch({
         success:function (model) {
           debug("Model loaded", model);
