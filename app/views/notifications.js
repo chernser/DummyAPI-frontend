@@ -125,6 +125,7 @@ define([
 
         var template;
         var $event_template_list = $("#event_template_list");
+        $event_template_list.empty();
         $event_template_list.append("<option value=''>-----</option>");
         for (var index in templates.models) {
           template = templates.models[index];
@@ -185,6 +186,8 @@ define([
       var self = this;
       this.current_event_template.remove(function (err, result) {
         debug("Event Template remove result: ", err, result);
+        $("#event_name").val('');
+        $("#event_data").val(''); 
         self.loadSavedEventTemplates();
       });
     },
