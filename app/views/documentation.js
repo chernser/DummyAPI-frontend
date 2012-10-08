@@ -100,7 +100,7 @@ define([
         debug("Methods documentation render done:", methods_documentation.el);
       });
 
-      $("#docs_methods").html(methods_documentation.$el.html());
+      $("#docs_methods").html(methods_documentation.el);
 
       $(".collapse").collapse().first().collapse('show');
       // Showing object type documentation

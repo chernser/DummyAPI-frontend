@@ -45,7 +45,7 @@
             <div class="row-fluid">
                 <div class="span12">
                     <h4 class="span12" style="text-align: center;">Payload description</h4>
-                    <table class="table">
+                    <table id="fields_desc_table" class="table">
                         <thead>
                         <tr>
                             <th>Field</th>
@@ -55,11 +55,11 @@
                         </thead>
                         <tbody>
                         {{#each fields}}
-                        <tr>
+                        <tr id="field_desc_{{name}}">
                             <td>{{name}}</td>
                             <td><i>{{type}}</i></td>
                             <td>{{desc}}</td>
-                            <td><i class="icon icon-edit"></i>&nbsp;<i class="icon icon-remove"></i></td>
+                            <td><i field="{{name}}" class="icon icon-edit"></i>&nbsp;<i class="icon icon-remove"></i></td>
                         </tr>
                         {{/each}}
                         </tbody>
