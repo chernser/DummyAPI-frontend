@@ -36,7 +36,7 @@ define([
       };
       $("#proxy_function_help_btn").popover(options);
 
-      //$("#event_data").val('{\n    "value": 123\n}\n');
+      $("#event_data").val('{\n    "value": 123\n}\n');
 
       if (!this.model.has("notify_proxy_fun") || _.isEmpty(this.model.get("notify_proxy_fun"))) {
         var default_proxy_code = "function proxy(event, data) {\n    event.data = data;\n   return event;\n}";
@@ -78,6 +78,14 @@ define([
       Helpers.renderModel("#event_callback_edit_form", this.current_event_callback);
     },
 
+    renderCurrentTemplate: function() {
+      debug("selected template model: ", this.current_event_template);
+      $("#event_template_list").val(this.current_event_template.getId());
+      $("#event_name").val(this.current_event_template.get('event_name'));
+      $("#event_data").val(this.current_event_template.get('event_data'));
+      $("#save_template_btn").text('Update');
+    },
+
     onRender:function () {
       AppDocs.init(this.$el);
     },
@@ -117,7 +125,7 @@ define([
       });
     },
 
-    loadSavedEventTemplates:function() {
+    loadSavedEventTemplates:function(done) {
       var view = this;
       this.event_templates.load(function (err, templates) {
         var data = view.event_templates.toJSON();
@@ -126,13 +134,15 @@ define([
         var template;
         var $event_template_list = $("#event_template_list");
         $event_template_list.empty();
-        $event_template_list.append("<option value=''>-----</option>");
+        $event_template_list.append("<option value=''></option>");
         for (var index in templates.models) {
           template = templates.models[index];
           var i = template.get('_id');
           debug(template);
           $event_template_list.append("<option value=\"" + template.get('_id') + "\">" + template.get('event_name') + "</option>");
         }
+
+        done(err);
       });
     },
 
@@ -145,10 +155,16 @@ define([
       'click #add_update_event_callback_btn':'onAddUpdateEventCallbackBtn',
 
       'change #event_template_list':'onEventTemplateChange',
+      'change #event_name':'onEventNameChange',
       'click #save_template_btn':'onSaveTemplateBtn',
       'click #delete_template_btn':'onDeleteTemplateBtn'
     },
 
+
+    onEventNameChange: function() {
+      this.current_event_template.clear();
+      $("#save_template_btn").text('Save');
+    },
 
     onEventTemplateChange:function () {
       var selected_event_template = $("#event_template_list").val(); //the id of the event
@@ -157,27 +173,27 @@ define([
       template = this.event_templates.get(selected_event_template);
       if(template) {
         this.current_event_template = template;
-        debug("selected template model: ", this.current_event_template);
-        $("#event_name").val(this.current_event_template.get('event_name'));
-        $("#event_data").val(this.current_event_template.get('event_data')); 
-        $("#save_template_btn").text('Update');
+        this.renderCurrentTemplate();
       }
-     
     },
 
     onSaveTemplateBtn:function () {
-      var self = this;
+      var view = this;
       var event_template_name = $("#event_name").val();
       var event_template_data = $("#event_data").val();
       //debug(this.current_event_template);
 
-      this.current_event_template.set("app_id", this.model.getId());
-      this.current_event_template.set("event_name", event_template_name);
-      this.current_event_template.set("event_data", event_template_data);
+      view.current_event_template.set("app_id", this.model.getId());
+      view.current_event_template.set("event_name", event_template_name);
+      view.current_event_template.set("event_data", event_template_data);
 
-      this.current_event_template.put(function (err, result) {
+      var loadCallback = function(err) {
+        view.renderCurrentTemplate();
+      };
+
+      view.current_event_template.put(function (err, result) {
         debug("event template save result", err, result);
-        self.loadSavedEventTemplates();
+        view.loadSavedEventTemplates(loadCallback);
       });
     },
 
@@ -207,7 +223,13 @@ define([
 
     onSendNotificationBtn:function () {
       var event_name = $("#event_name").val();
-      var event_data = JSON.parse($("#event_data").val());
+      var event_data;
+      try {
+        event_data = JSON.parse($("#event_data").val());
+      } catch (E) {
+        event_data = $("#event_data").val(); // just send as is
+      }
+
       var client_id = $("#to_socket_io_client").val();
       if (client_id === '') {
         client_id = null;
