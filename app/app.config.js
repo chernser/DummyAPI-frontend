@@ -2,19 +2,18 @@ define([
 
 ], function () {
 
-  var alt_backends = [
+  var backends = [
+    { // This may already be localhost
+      title:window.location.hostname,
+      server:window.location.hostname + ':8000',
+      root:"/"
+    },
     {
       title:"api.f9test.com",
-      server:"api.f9test.com:8000"
+      server:"api.f9test.com:8000",
+      root:"/"
     }
   ];
-
-  var default_backend = {
-    title:window.location.hostname,
-    server: window.location.hostname + ':8000'
-  };
-
-  var backends = [default_backend].concat(alt_backends);
 
   var config = {
     backends:backends,
