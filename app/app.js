@@ -12,18 +12,12 @@ define([
 
     function (config, $, _, Backbone, Marionette) {
         debug(config);
-        var TEMPLATE_PREFIX = 'app/templates/';
-        var TEMPLATE_EXT = '.hbs';
 
         var app  = new Marionette.Application( {
-            // The root path to run the application.
-            root:"/",
+            root: config.backend.root,
 
             getJSTTemplate:function(template, data) {
-                // Small optimization ??
-                //var templateKey = [TEMPLATE_PREFIX, template, TEMPLATE_EXT].join('');
                 return Handlebars.templates[template](data);
-                //return JST[templateKey](data);
             }
         });
 
