@@ -178,7 +178,9 @@ define([
       'click #save_object_type_route_pattern_btn':'onSaveObjectTypeRoutePatternBtn',
       'keypress #new_object_type_name':'onKeyPressedOnNewObjectTypeNameInput',
       'click #remove_all_instances_btn':'onRemoveAllInstancesBtn',
-      'click #save_decode_function_code_btn':'onSaveDecodeFunctionCodeBtn'
+      'click #save_decode_function_code_btn':'onSaveDecodeFunctionCodeBtn',
+      'click #test_proxy_function_code_btn':'onTestProxyFunctionCodeBtn',
+      'click #test_decode_function_code_btn':'onTestDecodeFunctionCodeBtn'
     },
 
     onAddObjectTypeBtn:function () {
@@ -378,6 +380,27 @@ define([
       this.instances.removeAll(function(err, result) {
         view.loadObjectInstances();
       });
+    },
+
+    onTestProxyFunctionCodeBtn: function() {
+      this.model.testGet(null, $("#proxy_function_code").val(), function(err, results) {
+        debug("results: ", results);
+
+        var result_list = $("#proxy_function_test_results").empty();
+        for (var index in results ) {
+          result_list.append($("<li></li>").text(JSON.stringify(results[index], null, 4)));
+        }
+      });
+    },
+
+    onTestDecodeFunctionCodeBtn: function() {
+      var payload = JSON.parse($("#test_decode_function_payload").val());
+      var decode_fun = Helpers.text_to_function($("#decode_function_code").val());
+
+      if (decode_fun !== null) {
+        var result = decode_fun(payload);
+        $("#decode_function_test_result").text(JSON.stringify(result, null, 4));
+      }
     }
   });
 

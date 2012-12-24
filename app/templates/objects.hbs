@@ -54,7 +54,7 @@
 
                     <div class="form">
                         <div class="controls-group">
-                            <label class="control-label">Object data</label>
+                            <label class="control-label">JSON Object data</label>
 
                             <div class="controls">
                                 <textarea id="object_instance_json" rows="6" style="width:350px;"/>
@@ -76,7 +76,7 @@
                 <div class="tab-pane" id="logic">
                     <div class="form">
                         <div class="control-group">
-                            <label class="control-label">Proxy function</label>
+                            <label class="control-label">GET Handler (Proxy function)</label>
 
                             <div class="controls">
                                 <textarea id="proxy_function_code" rows="10"
@@ -91,11 +91,17 @@ function proxy(resource){
                         </div>
                         <button id="save_proxy_function_code_btn" class="btn">Save</button>
                         <span class="inline-help" style="color: red;margin-left: 10px" id="proxy_function_code_error"/>
+                        <button id="test_proxy_function_code_btn" class="btn">Test</button>
+
+                        <h6>Function test results</h6>
+                        <div class="well">
+                            <ul id="proxy_function_test_results"></ul>
+                        </div>
                     </div>
                     <br/>
                     <div class="form">
                         <div class="control-group">
-                            <label class="control-label">Decode function</label>
+                            <label class="control-label">PUT/POST/DELETE Handler (Decode function)</label>
 
                             <div class="controls">
                                 <textarea id="decode_function_code" rows="10"
@@ -111,7 +117,20 @@ return resource;
                         <button id="save_decode_function_code_btn" class="btn">Save</button>
                         <span class="inline-help" style="color: red;margin-left: 10px" id="decode_function_code_error"/>
                     </div>
+                    <div class="form">
 
+                        <label class="control-label">Client payload</label>
+                        <div class="controls">
+                            <textarea id="test_decode_function_payload" rows="10" style="width:400px">{ }</textarea>
+                        </div>
+                        <div class="controls">
+                            <button id="test_decode_function_code_btn" class="btn">Test</button>
+                        </div>
+                    </div>
+                    <div class="span5">
+                        <h6>Function test result</h6>
+                        <pre id="decode_function_test_result"></pre>
+                    </div>
                 </div>
                 <!--
                 <div class="tab-pane" id="routes">

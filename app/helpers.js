@@ -204,6 +204,18 @@ define([
 
   };
 
+  Helpers.text_to_function = function(function_body) {
+    try {
+      var tmp = {};
+      (function(global) {
+        eval('var fun = ' + function_body + ';');
+        global.fun = fun;
+      })(tmp);
+      return tmp.fun;
+    } catch (E) {
+      return null;
+    }
+  };
 
   return Helpers;
 });
